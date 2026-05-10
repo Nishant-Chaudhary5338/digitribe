@@ -1,26 +1,308 @@
 @import "tailwindcss";
 
+@theme {
+  /* ─── Type Scale ─── */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+
+  /* ─── Border Radius ─── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ─── */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.15);
+
+  /* ─── Transitions ─── */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-deliberate: 600ms;
+  --easing-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --easing-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ─── Breakpoints ─── */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ─── Neutral fallback (splash, legal, workshop, 404) ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg-page: #F2EAD8;
+  --color-bg-card: rgba(255, 251, 240, 0.7);
+  --color-bg-card-alt: #F8F2E0;
+  --color-bg-inverse: #2D2418;
+
+  --color-text-primary: #1C0A00;      /* Darker: 5.2:1 on terracotta — WCAG AA */
+  --color-text-body: #3A3028;
+  --color-text-muted: #4D6040;        /* Darkened sage: 5.6:1 on oat bg — WCAG AA */
+  --color-text-on-inverse: #F2EAD8;
+
+  --color-accent: #C5704F;
+  --color-accent-soft: #E8C9B0;
+  --color-secondary: #7A8B6E;
+  --color-tertiary: #FFCD55;
+
+  --color-success: #5C6E54;
+  --color-warning: #C5704F;
+  --color-error: #A8443D;
+
+  --color-border: rgba(45, 36, 24, 0.12);
+  --color-border-strong: rgba(45, 36, 24, 0.3);
+  --color-border-decorative: rgba(45, 36, 24, 0.3);
+
+  /* Founder dot gradients — neutral fallback */
+  --founder-dot-1: linear-gradient(135deg, #C5704F, #A35538);
+  --founder-dot-2: linear-gradient(135deg, #7A8B6E, #5C6E54);
+  --founder-dot-3: linear-gradient(135deg, #6B3E5C, #4F2D44);
+
+  --font-display: var(--font-inter-tight, system-ui, sans-serif);
+  --font-body: var(--font-inter-tight, system-ui, sans-serif);
+  --font-mono: var(--font-ibm-plex-mono, ui-monospace, monospace);
+  --font-accent: var(--font-fraunces, Georgia, serif);
+
+  --radius-theme-sm: 8px;
+  --radius-theme-md: 16px;
+  --radius-theme-lg: 24px;
+  --radius-theme-pill: 999px;
+  --shadow-card: 0 5px 20px rgba(45, 36, 24, 0.06);
+  --shadow-cta: 0 5px 0 var(--color-text-primary);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Studio theme (DTC / Riso Workshop) ─── */
+[data-theme="studio"] {
+  /* Surfaces */
+  --color-bg-page: #F4EFE2;
+  --color-bg-card: #FAF6E8;
+  --color-bg-card-alt: #FFFCED;
+  --color-bg-inverse: #1A2233;
+
+  /* Text */
+  --color-text-primary: #1A2233;
+  --color-text-body: #2D3548;
+  --color-text-muted: #4A5668;        /* Darkened: 5.1:1 on Studio card bg — WCAG AA */
+  --color-text-on-inverse: #F4EFE2;
+
+  /* Accents */
+  --color-accent: #FF4F8B;
+  --color-accent-soft: #FFCAD4;
+  --color-secondary: #2841DD;
+  --color-tertiary: #FFD700;
+
+  /* Semantic */
+  --color-success: #2D7A4A;
+  --color-warning: #C97A14;
+  --color-error: #B92F2F;
+
+  /* Borders */
+  --color-border: #1A2233;
+  --color-border-strong: #1A2233;
+  --color-border-decorative: rgba(26, 34, 51, 0.3);
+
+  /* Typography */
+  --font-display: var(--font-bricolage, 'Bricolage Grotesque', system-ui, sans-serif);
+  --font-body: var(--font-bricolage, 'Bricolage Grotesque', system-ui, sans-serif);
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono', ui-monospace, monospace);
+  --font-accent: var(--font-instrument-serif, 'Instrument Serif', Georgia, serif);
+
+  /* Layout */
+  --radius-theme-sm: 0px;
+  --radius-theme-md: 0px;
+  --radius-theme-lg: 0px;
+  --radius-theme-pill: 999px;
+  --shadow-card: 5px 5px 0 var(--color-border);
+  --shadow-cta: 7px 7px 0 var(--color-secondary);
+
+  /* Decorative */
+  --grain: radial-gradient(circle at 1px 1px, rgba(26, 34, 51, 0.15) 1px, transparent 1.5px);
+  --grain-size: 6px 6px;
+
+  /* Founder dot gradients — Studio: riso pink / electric blue / navy */
+  --founder-dot-1: linear-gradient(135deg, #FF4F8B, #CC0055);
+  --founder-dot-2: linear-gradient(135deg, #2841DD, #1225A0);
+  --founder-dot-3: linear-gradient(135deg, #1A2233, #0F1629);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── Garden theme (SaaS / Botanical) ─── */
+[data-theme="garden"] {
+  /* Surfaces */
+  --color-bg-page: #F0E6CE;
+  --color-bg-card: rgba(255, 251, 240, 0.65);
+  --color-bg-card-alt: #F8F1DC;
+  --color-bg-inverse: #2D2418;
+
+  /* Text */
+  --color-text-primary: #1C0A00;      /* Match neutral — ensures contrast on terracotta */
+  --color-text-body: #3A3028;
+  --color-text-muted: #4D6040;        /* Darkened: 5.6:1 on oat bg — WCAG AA */
+  --color-text-on-inverse: #F0E6CE;
+
+  /* Accents */
+  --color-accent: #C5704F;
+  --color-accent-soft: #E8C9B0;
+  --color-secondary: #7A8B6E;
+  --color-tertiary: #FFCD55;
+  --color-quaternary: #6B3E5C;
+
+  /* Semantic */
+  --color-success: #5C6E54;
+  --color-warning: #C5704F;
+  --color-error: #A8443D;
+
+  /* Borders */
+  --color-border: rgba(45, 36, 24, 0.12);
+  --color-border-strong: rgba(45, 36, 24, 0.3);
+  --color-border-decorative: rgba(45, 36, 24, 0.3);
+
+  /* Typography */
+  --font-display: var(--font-fraunces, 'Fraunces', Georgia, serif);
+  --font-body: var(--font-inter-tight, 'Inter Tight', system-ui, sans-serif);
+  --font-mono: var(--font-ibm-plex-mono, 'IBM Plex Mono', ui-monospace, monospace);
+  --font-accent: var(--font-fraunces, 'Fraunces', Georgia, serif);
+
+  /* Layout */
+  --radius-theme-sm: 8px;
+  --radius-theme-md: 16px;
+  --radius-theme-lg: 24px;
+  --radius-theme-xl: 32px;
+  --radius-theme-pill: 999px;
+  --shadow-card: 0 5px 20px rgba(45, 36, 24, 0.06);
+  --shadow-cta: 0 5px 0 var(--color-text-primary);
+
+  /* Decorative */
+  --grain: none;
+
+  /* Founder dot gradients — Garden: terracotta / sage / plum */
+  --founder-dot-1: linear-gradient(135deg, #C5704F, #A35538);
+  --founder-dot-2: linear-gradient(135deg, #7A8B6E, #5C6E54);
+  --founder-dot-3: linear-gradient(135deg, #6B3E5C, #4F2D44);
+}
+
+/* ─── Base ─── */
+body {
+  background: var(--color-bg-page);
+  color: var(--color-text-body);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* When a theme wrapper is present, its background fills the page */
+[data-theme="studio"],
+[data-theme="garden"] {
+  min-height: 100svh;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-text-on-inverse);
+}
+
+/* ─── Focus ring ─── */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Skip to content ─── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-text-on-inverse);
+  font-weight: 700;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─── Studio: Primary CTA button ─── */
+[data-theme="studio"] .btn-primary {
+  border: 2.5px solid var(--color-border);
+  border-radius: 0;
+  box-shadow: 7px 7px 0 var(--color-secondary);
+  transition: box-shadow var(--duration-fast), transform var(--duration-fast);
+}
+[data-theme="studio"] .btn-primary:hover {
+  box-shadow: 4px 4px 0 var(--color-secondary);
+  transform: translate(3px, 3px);
+}
+
+/* ─── Garden: Primary CTA button ─── */
+[data-theme="garden"] .btn-primary {
+  border-radius: 999px;
+  box-shadow: 0 5px 0 var(--color-text-primary);
+  border: none;
+  transition: box-shadow var(--duration-fast), transform var(--duration-fast);
+}
+[data-theme="garden"] .btn-primary:hover {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--color-text-primary);
+}
+
+/* ─── Halftone grain (Studio only) ─── */
+[data-theme="studio"] .grain-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  background-size: var(--grain-size);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+/* ─── Riso shapes (Studio only) ─── */
+.riso-pink {
+  background: #FF4F8B;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+}
+.riso-blue {
+  background: #2841DD;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+.riso-yellow {
+  background: #FFD700;
+  mix-blend-mode: multiply;
+  opacity: 0.95;
 }
