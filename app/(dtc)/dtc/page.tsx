@@ -3,11 +3,10 @@ import { HeroHome } from '@/components/sections/hero-home'
 import { TrustStrip } from '@/components/sections/trust-strip'
 import { ProblemStatement } from '@/components/sections/problem-statement'
 import { TwoAnchors } from '@/components/sections/two-anchors'
-import { HowWeWork } from '@/components/sections/how-we-work'
-import { IdealClients } from '@/components/sections/ideal-clients'
 import { ProcessSteps } from '@/components/sections/process-steps'
 import { FoundersGrid } from '@/components/sections/founders-grid'
 import { AICallout } from '@/components/sections/ai-callout'
+import { Seam } from '@/components/decor/seam'
 import { FinalCTA } from '@/components/sections/final-cta'
 import { organizationSchema } from '@/lib/schema/organization'
 import { faqPageSchema } from '@/lib/schema/faq-page'
@@ -47,13 +46,12 @@ export default function DTCHomePage() {
 
   return (
     <>
+      <Seam theme="studio" />
       <HeroHome />
       <TrustStrip />
-      <ProblemStatement />
       <TwoAnchors />
+      <ProblemStatement theme="studio" />
       <AICallout theme="studio" />
-      <HowWeWork />
-      <IdealClients />
       <ProcessSteps />
       <FoundersGrid variant="compact" />
       <FinalCTA />
