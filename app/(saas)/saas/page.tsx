@@ -15,12 +15,12 @@ import { auditFaqs } from '@/lib/data/faqs'
 export const metadata: Metadata = {
   title: 'Code + content for product-led SaaS founders',
   description:
-    'A senior 3-person studio. We build product-grade marketing sites and run the paid traffic to fill them. For seed to Series A SaaS.',
+    'A senior 2-person studio. We build product-grade marketing sites, AI agents, and run the paid traffic to fill them. For seed to Series A SaaS.',
   alternates: { canonical: 'https://digitribe.co/saas' },
   openGraph: {
     title: 'For SaaS founders',
     description:
-      'A senior 3-person studio. We build product-grade marketing sites and run the paid traffic to fill them. For seed to Series A SaaS.',
+      'A senior 2-person studio. We build product-grade marketing sites, AI agents, and run the paid traffic to fill them. For seed to Series A SaaS.',
     url: 'https://digitribe.co/saas',
     siteName: 'Digitribe',
     images: [{ url: '/og/saas-home.png', width: 1200, height: 630 }],

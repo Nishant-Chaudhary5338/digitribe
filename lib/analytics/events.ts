@@ -1,3 +1,5 @@
+import { trackGa4Event } from '@/lib/analytics/ga4-consent'
+
 export type Theme = 'studio' | 'garden' | 'neutral'
 
 export const PLAUSIBLE_EVENTS = {
@@ -24,6 +26,7 @@ function track(event: string, props?: Record<string, string>) {
   if (typeof window !== 'undefined' && typeof window.plausible === 'function') {
     window.plausible(event, props ? { props } : undefined)
   }
+  trackGa4Event(event, props)
 }
 
 export const analytics = {

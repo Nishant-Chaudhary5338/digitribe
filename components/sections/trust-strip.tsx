@@ -8,12 +8,13 @@ export function TrustStrip() {
         borderBottom: '1px solid var(--color-border-decorative)',
       }}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
+      <div className="mx-auto max-w-7xl px-5 text-center sm:px-8 lg:px-12">
         <p
           className="text-base leading-relaxed"
           style={{ color: 'var(--color-text-on-inverse)', opacity: 0.7 }}
         >
-          &mdash; 3 specialists. Zero account managers. Direct contact with the people doing the work. &mdash;
+          &mdash; 2 specialists. Zero account managers. Direct contact with the people doing the
+          work. &mdash;
         </p>
       </div>
     </section>

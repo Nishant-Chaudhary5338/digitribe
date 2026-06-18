@@ -22,7 +22,7 @@ const FOUNDER_DOT_STYLES = [
 function CompactCard({ founder, index }: { founder: Founder; index: number }) {
   return (
     <Reveal delay={index * 0.15}>
-      <div className="flex flex-col items-center text-center p-6">
+      <div className="flex flex-col items-center p-6 text-center">
         {founder.photo ? (
           <Image
             src={founder.photo}
@@ -30,11 +30,11 @@ function CompactCard({ founder, index }: { founder: Founder; index: number }) {
             alt={`${founder.name} — ${founder.role}`}
             width={80}
             height={80}
-            className="rounded-full object-cover mb-4"
+            className="mb-4 rounded-full object-cover"
           />
         ) : (
           <div
-            className="w-20 h-20 flex items-center justify-center font-bold text-xl mb-4 shrink-0"
+            className="mb-4 flex h-20 w-20 shrink-0 items-center justify-center text-xl font-bold"
             aria-label={`${founder.name} initials`}
             style={{
               ...FOUNDER_DOT_STYLES[index % FOUNDER_DOT_STYLES.length],
@@ -42,18 +42,25 @@ function CompactCard({ founder, index }: { founder: Founder; index: number }) {
               fontFamily: 'var(--font-display)',
             }}
           >
-            {founder.name.split(' ').map((n) => n[0]).join('')}
+            {founder.name
+              .split(' ')
+              .map((n) => n[0])
+              .join('')}
           </div>
         )}
 
         <h3
-          className="text-base font-bold mb-0.5"
+          className="mb-0.5 text-base font-bold"
           style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
         >
           {founder.name}
         </h3>
-        <p className="text-sm mb-2" style={{ color: 'var(--color-text-muted)' }}>{founder.role}</p>
-        <p className="text-sm mb-3" style={{ color: 'var(--color-text-body)' }}>{founder.oneLiner}</p>
+        <p className="mb-2 text-sm" style={{ color: 'var(--color-text-muted)' }}>
+          {founder.role}
+        </p>
+        <p className="mb-3 text-sm" style={{ color: 'var(--color-text-body)' }}>
+          {founder.oneLiner}
+        </p>
 
         <Link
           href={`/about#${founder.slug}`}
@@ -87,12 +94,12 @@ function FullCard({ founder, index }: { founder: Founder; index: number }) {
             alt={`${founder.name} — ${founder.role} at Digitribe`}
             width={192}
             height={192}
-            className="object-cover mb-5 w-48 h-48"
+            className="mb-5 h-48 w-48 object-cover"
             style={{ borderRadius: 'var(--radius-theme-md, 8px)' }}
           />
         ) : (
           <div
-            className="w-48 h-48 flex items-center justify-center font-bold text-4xl mb-5 shrink-0"
+            className="mb-5 flex h-48 w-48 shrink-0 items-center justify-center text-4xl font-bold"
             aria-label={`${founder.name} initials`}
             style={{
               ...FOUNDER_DOT_STYLES[index % FOUNDER_DOT_STYLES.length],
@@ -101,11 +108,14 @@ function FullCard({ founder, index }: { founder: Founder; index: number }) {
               borderRadius: 'var(--radius-theme-md, 8px)',
             }}
           >
-            {founder.name.split(' ').map((n) => n[0]).join('')}
+            {founder.name
+              .split(' ')
+              .map((n) => n[0])
+              .join('')}
           </div>
         )}
 
-        <div className="mb-3 flex items-center gap-3 flex-wrap">
+        <div className="mb-3 flex flex-wrap items-center gap-3">
           <h3
             className="text-xl font-bold"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
@@ -113,7 +123,7 @@ function FullCard({ founder, index }: { founder: Founder; index: number }) {
             {founder.name}
           </h3>
           <span
-            className="text-xs px-2.5 py-1 font-medium"
+            className="px-2.5 py-1 text-xs font-medium"
             style={{
               background: 'var(--color-accent-soft)',
               color: 'var(--color-text-primary)',
@@ -125,19 +135,16 @@ function FullCard({ founder, index }: { founder: Founder; index: number }) {
           </span>
         </div>
 
-        <p
-          className="text-sm leading-relaxed mb-5"
-          style={{ color: 'var(--color-text-body)' }}
-        >
+        <p className="mb-5 text-sm leading-relaxed" style={{ color: 'var(--color-text-body)' }}>
           {founder.bio}
         </p>
 
         {founder.stack && founder.stack.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-5">
+          <div className="mb-5 flex flex-wrap gap-2">
             {founder.stack.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-2 py-1"
+                className="px-2 py-1 text-xs"
                 style={{
                   background: 'var(--color-bg-card-alt)',
                   color: 'var(--color-text-muted)',
@@ -179,15 +186,12 @@ export function FoundersGrid({ variant }: FoundersGridProps) {
   const isCompact = variant === 'compact'
 
   return (
-    <section
-      className="py-16 sm:py-20 lg:py-24"
-      style={{ background: 'var(--color-bg-page)' }}
-    >
+    <section className="py-16 sm:py-20 lg:py-24" style={{ background: 'var(--color-bg-page)' }}>
       <Container>
         <Reveal>
-          <div className="text-center mb-12">
+          <div className="mb-12 text-center">
             <p
-              className="text-xs uppercase tracking-[0.12em] mb-3"
+              className="mb-3 text-xs tracking-[0.12em] uppercase"
               style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-muted)' }}
             >
               The tribe
@@ -201,13 +205,13 @@ export function FoundersGrid({ variant }: FoundersGridProps) {
               }}
             >
               {isCompact
-                ? 'Three of us. All senior. No layers.'
+                ? 'Two of us. All senior. No layers.'
                 : 'Senior practitioners. Direct contact. No layers.'}
             </h2>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2">
           {founders.map((founder, index) =>
             isCompact ? (
               <CompactCard key={founder.slug} founder={founder} index={index} />

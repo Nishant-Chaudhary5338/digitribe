@@ -5,23 +5,90 @@ import { motion, useReducedMotion } from 'motion/react'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
-function RisoShapes() {
+function RimMarker({
+  angle,
+  radius,
+  size,
+  color,
+  hollow = false,
+}: {
+  angle: number
+  radius: number
+  size: number
+  color: string
+  hollow?: boolean
+}) {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {/* Pink circle */}
+    <div
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: 0,
+        height: 0,
+        transform: `rotate(${angle}deg)`,
+      }}
+    >
       <div
+        style={{
+          position: 'absolute',
+          width: size,
+          height: size,
+          borderRadius: '50%',
+          background: hollow ? 'transparent' : color,
+          border: hollow ? `2px solid ${color}` : 'none',
+          top: -radius,
+          left: -size / 2,
+        }}
+      />
+    </div>
+  )
+}
+
+function RisoShapes() {
+  const reduced = useReducedMotion()
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Pink circle — flat spin, dashed border, 3 filled navy dots */}
+      <motion.div
         className="riso-pink absolute"
-        style={{ width: 520, height: 520, top: 80, right: -140 }}
-      />
-      {/* Blue circle */}
-      <div
+        style={{
+          width: 520,
+          height: 520,
+          top: 80,
+          right: -140,
+          border: '3.5px dashed rgba(26,34,51,0.25)',
+          borderRadius: '50%',
+        }}
+        animate={reduced ? {} : { rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+      >
+        <RimMarker angle={0} radius={248} size={12} color="#1A2233" />
+      </motion.div>
+
+      {/* Blue circle — flat spin opposite, dashed border, 3 hollow yellow rings */}
+      <motion.div
         className="riso-blue absolute"
-        style={{ width: 380, height: 380, top: 360, right: 60 }}
-      />
-      {/* Yellow square */}
-      <div
+        style={{
+          width: 380,
+          height: 380,
+          top: 360,
+          right: 60,
+          border: '3.5px dashed rgba(255,215,0,0.3)',
+          borderRadius: '50%',
+        }}
+        animate={reduced ? {} : { rotate: -360 }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+      >
+        <RimMarker angle={0} radius={178} size={11} color="#FFD700" hollow />
+      </motion.div>
+      {/* Yellow square — flat spin, fastest (rotation clearly visible) */}
+      <motion.div
         className="riso-yellow absolute"
-        style={{ width: 200, height: 200, top: 420, right: 350, transform: 'rotate(8deg)' }}
+        style={{ width: 200, height: 200, top: 420, right: 350 }}
+        animate={reduced ? {} : { rotate: 360 }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
       />
     </div>
   )
@@ -62,7 +129,7 @@ export function StudioHero() {
 
   return (
     <section
-      className="relative grain-bg overflow-hidden border-b-[2.5px]"
+      className="grain-bg relative overflow-hidden border-b-[2.5px]"
       style={{
         background: 'var(--color-bg-page)',
         borderBottomColor: 'var(--color-border)',
@@ -73,11 +140,8 @@ export function StudioHero() {
     >
       <RisoShapes />
 
-      <div
-        className="relative z-10 max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12"
-      >
+      <div className="relative z-10 mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
         <motion.div variants={container} initial="initial" animate="animate">
-
           {/* Eyebrow */}
           <motion.div variants={item} className="mb-8">
             <span
@@ -95,7 +159,7 @@ export function StudioHero() {
                 color: 'var(--color-text-primary)',
               }}
             >
-              /// 3-person studio · built for brands that move fast
+              /// 2-person studio · built for brands that move fast
             </span>
           </motion.div>
 
@@ -114,10 +178,7 @@ export function StudioHero() {
             }}
           >
             Code, content,{' '}
-            <span
-              className="relative inline-block"
-              style={{ color: 'var(--color-secondary)' }}
-            >
+            <span className="relative inline-block" style={{ color: 'var(--color-secondary)' }}>
               {/* Yellow underline highlight behind "conversions" */}
               <span
                 aria-hidden="true"
@@ -131,8 +192,7 @@ export function StudioHero() {
               />
               conversions
             </span>{' '}
-            —{' '}
-            <br />
+            — <br />
             under one{' '}
             <span
               style={{
@@ -149,7 +209,7 @@ export function StudioHero() {
           {/* Floating annotation */}
           <motion.div
             variants={item}
-            className="hidden sm:block absolute"
+            className="absolute hidden sm:block"
             style={{ top: 'clamp(14rem, 22vw, 22rem)', left: 'clamp(24rem, 40%, 48rem)' }}
             aria-hidden="true"
           >
@@ -167,11 +227,13 @@ export function StudioHero() {
               color: 'var(--color-text-body)',
             }}
           >
-            Senior practitioners running the entire build-to-growth funnel. No account managers. No silos. We make websites that convert and run the paid traffic to fill them — same team, same week.
+            Senior practitioners running the entire build-to-growth funnel. No account managers. No
+            silos. We make websites that convert and run the paid traffic to fill them — same team,
+            same week.
           </motion.p>
 
           {/* CTA row */}
-          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 mb-20">
+          <motion.div variants={item} className="mb-20 flex flex-col gap-4 sm:flex-row">
             {/* Primary: pink + navy border + blue offset shadow */}
             <Link
               href="/dtc/audit"
@@ -186,7 +248,12 @@ export function StudioHero() {
             >
               Book a 30-min audit
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path
+                  d="M3 13L13 3M13 3H6M13 3V10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
             </Link>
 
@@ -209,11 +276,11 @@ export function StudioHero() {
           {/* Stat stamps */}
           <motion.div
             variants={item}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-9 border-t-[2.5px]"
+            className="grid grid-cols-2 gap-8 border-t-[2.5px] pt-9 sm:grid-cols-4"
             style={{ borderTopColor: 'var(--color-border)' }}
           >
             {[
-              { num: '3', label: 'senior makers', color: 'var(--color-secondary)' },
+              { num: '2', label: 'senior makers', color: 'var(--color-secondary)' },
               { num: '5+', label: 'years each', color: 'var(--color-accent)' },
               { num: '0', label: 'account managers', color: 'var(--color-text-primary)' },
               { num: 'EU+US', label: 'built for', color: 'var(--color-secondary)', small: true },
@@ -246,7 +313,6 @@ export function StudioHero() {
               </div>
             ))}
           </motion.div>
-
         </motion.div>
       </div>
     </section>

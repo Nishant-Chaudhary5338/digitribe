@@ -15,12 +15,12 @@ import { auditFaqs } from '@/lib/data/faqs'
 export const metadata: Metadata = {
   title: 'Build + grow agency for DTC founders',
   description:
-    'A senior 3-person studio building conversion-focused websites and running the paid traffic to fill them. For DTC brands $5M–$20M ARR.',
+    'A senior 2-person studio building conversion-focused websites and running the paid traffic to fill them. For DTC brands $5M–$20M ARR.',
   alternates: { canonical: 'https://digitribe.co/dtc' },
   openGraph: {
     title: 'For DTC founders',
     description:
-      'A senior 3-person studio building conversion-focused websites and running the paid traffic to fill them. For DTC brands $5M–$20M ARR.',
+      'A senior 2-person studio building conversion-focused websites and running the paid traffic to fill them. For DTC brands $5M–$20M ARR.',
     url: 'https://digitribe.co/dtc',
     siteName: 'Digitribe',
     images: [{ url: '/og/dtc-home.png', width: 1200, height: 630 }],

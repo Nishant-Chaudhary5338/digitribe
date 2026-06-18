@@ -1,0 +1,20 @@
+---
+slug: mcp-server-build
+name: Custom MCP Server
+category: automate
+startingPriceEur: 4500
+timeline: 2-4 weeks
+oneLiner: A bespoke MCP server that connects your tools and data to Claude, Cursor, and any AI client.
+---
+
+# Custom MCP Server
+
+The Model Context Protocol is how AI clients — Claude, Cursor, and increasingly everything else — safely reach your tools and data. A custom MCP server turns your internal systems into capabilities an AI can actually use: query a database, file a ticket, kick off a deploy, read the right document. We build that server for you.
+
+We write MCP servers in Node and TypeScript with the same standards we apply to product code. Typed, Zod-validated tool arguments at every boundary. Auth and secrets handled to production standard, not hard-coded. Both local and remote (HTTP) transports configured. And a codebase documented well enough that your team can add the next tool without reverse-engineering ours.
+
+## What makes our approach different
+
+We have built and shipped MCP servers as our own internal tooling, so we know where they get brittle — vague tool descriptions the model misuses, auth that leaks, schemas that drift. We design tool definitions the model can actually reason about, and we test them against real client behavior before handoff.
+
+This pairs naturally with AI Agent Development: the MCP server is the hands, the agent is the brain. Many engagements do both.

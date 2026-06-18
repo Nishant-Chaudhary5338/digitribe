@@ -83,7 +83,7 @@ test.describe('Garden / SaaS home (/saas)', () => {
     await expect(themeEl).toBeAttached()
   })
 
-  test('founder card shows three practitioners', async ({ page }) => {
-    await expect(page.locator('text=Three senior practitioners')).toBeVisible()
+  test('founder card shows the practitioners', async ({ page }) => {
+    await expect(page.locator('text=Two senior practitioners')).toBeVisible()
   })
 })

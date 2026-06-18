@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ChatWidget } from '@/components/chat/chat-widget'
 import {
   Bricolage_Grotesque,
   JetBrains_Mono,
@@ -9,6 +10,8 @@ import {
 } from 'next/font/google'
 import './globals.css'
 import { PlausibleScript } from '@/components/analytics/plausible'
+import { Ga4Script } from '@/components/analytics/ga4-script'
+import { Ga4Client } from '@/components/analytics/ga4-client'
 import { CookieBanner } from '@/components/consent/cookie-banner'
 import { organizationSchema } from '@/lib/schema/organization'
 
@@ -62,7 +65,7 @@ export const metadata: Metadata = {
     template: '%s — Digitribe',
   },
   description:
-    'A senior 3-person tribe building conversion-focused websites and running the paid traffic to fill them. For DTC and SaaS founders in the EU and US.',
+    'A senior 2-person tribe building conversion-focused websites, AI agents, and the paid traffic to fill them. For DTC and SaaS founders in the EU and US.',
   openGraph: {
     siteName: 'Digitribe',
     locale: 'en_US',
@@ -93,16 +96,19 @@ export default function RootLayout({
         'h-full antialiased',
       ].join(' ')}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <a
           href="#main-content"
-          className="skip-link sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
+          className="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50"
         >
           Skip to main content
         </a>
+        <Ga4Script />
         <PlausibleScript />
+        <Ga4Client />
         {children}
         <CookieBanner />
+        <ChatWidget />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

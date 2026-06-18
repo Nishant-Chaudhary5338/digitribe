@@ -8,7 +8,7 @@ import { founders } from '@/lib/data/founders'
 export const metadata: Metadata = {
   title: 'About — the studio behind Digitribe',
   description:
-    'Three senior practitioners — one engineer, one designer, one paid acquisition specialist — who got tired of watching agencies over-charge and under-deliver. We built a better model.',
+    'Two senior practitioners — one engineer, one paid acquisition specialist — who got tired of watching agencies over-charge and under-deliver. We built a better model.',
   alternates: { canonical: 'https://digitribe.co/saas/about' },
   openGraph: {
     title: 'About Digitribe — for SaaS founders',
@@ -27,7 +27,7 @@ const principles = [
   },
   {
     heading: "We're a small team on purpose.",
-    body: 'Three people who each specialize deeply beats twelve people where nobody owns anything. We know our limits and we stay within them.',
+    body: 'Two people who each specialize deeply beats twelve people where nobody owns anything. We know our limits and we stay within them.',
   },
 ]
 
@@ -46,33 +46,42 @@ export default function SaaSAboutPage() {
     <>
       <HeroPage
         eyebrow="A small studio"
-        headline="Three friends. One agency model that doesn't suck."
+        headline="Two founders. One agency model that doesn't suck."
         sub="We started Digitribe because we kept watching agencies overcharge for under-delivery."
       />
 
       {/* Story */}
       <section className="py-24" style={{ background: 'var(--color-bg-card-alt)' }}>
         <div className="mx-auto max-w-3xl px-6">
-          <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--color-text-body)' }}>
-            Between us, we have 15+ years building and growing digital products inside large organizations.
-            We&apos;ve sat in the meetings where agencies presented beautiful decks and then handed work to interns.
-            We&apos;ve watched clients pay retainers for strategy documents that never shipped.
+          <p className="mb-6 text-lg leading-relaxed" style={{ color: 'var(--color-text-body)' }}>
+            Between us, we have 15+ years building and growing digital products inside large
+            organizations. We&apos;ve sat in the meetings where agencies presented beautiful decks
+            and then handed work to interns. We&apos;ve watched clients pay retainers for strategy
+            documents that never shipped.
           </p>
-          <p className="text-lg leading-relaxed mb-16" style={{ color: 'var(--color-text-body)' }}>
-            So we left our jobs and built the agency we always wanted to hire. Small team, senior operators,
-            productized scope, transparent pricing. We do the work ourselves. Every time.
+          <p className="mb-16 text-lg leading-relaxed" style={{ color: 'var(--color-text-body)' }}>
+            So we left our jobs and built the agency we always wanted to hire. Small team, senior
+            operators, productized scope, transparent pricing. We do the work ourselves. Every time.
           </p>
 
-          <h2 className="text-2xl font-bold mb-10" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}>
+          <h2
+            className="mb-10 text-2xl font-bold"
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
+          >
             Three principles we don&apos;t negotiate on.
           </h2>
           <div className="grid gap-8 sm:grid-cols-3">
             {principles.map((p) => (
               <div key={p.heading} className="flex flex-col gap-3">
-                <h3 className="text-base font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}>
+                <h3
+                  className="text-base font-bold"
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
+                >
                   {p.heading}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>{p.body}</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
+                  {p.body}
+                </p>
               </div>
             ))}
           </div>
@@ -82,9 +91,16 @@ export default function SaaSAboutPage() {
       <FoundersGrid variant="full" />
 
       {/* Not for everyone */}
-      <section id="not-for-everyone" className="py-24" style={{ background: 'var(--color-bg-card-alt)' }}>
+      <section
+        id="not-for-everyone"
+        className="py-24"
+        style={{ background: 'var(--color-bg-card-alt)' }}
+      >
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}>
+          <h2
+            className="mb-4 text-3xl font-bold"
+            style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
+          >
             We&apos;re not for everyone.
           </h2>
           <p className="mb-10 text-lg" style={{ color: 'var(--color-text-muted)' }}>
@@ -102,11 +118,21 @@ export default function SaaSAboutPage() {
                     color: 'var(--color-text-on-inverse)',
                   }}
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-3 w-3"
+                  >
                     <path d="M18 6 6 18M6 6l12 12" />
                   </svg>
                 </span>
-                <span className="text-base" style={{ color: 'var(--color-text-body)' }}>{item}</span>
+                <span className="text-base" style={{ color: 'var(--color-text-body)' }}>
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -115,7 +141,10 @@ export default function SaaSAboutPage() {
 
       <FinalCTA />
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchemas) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchemas) }}
+      />
     </>
   )
 }

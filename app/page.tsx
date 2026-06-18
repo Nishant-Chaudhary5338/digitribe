@@ -1,17 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 const COOKIE_NAME = 'digitribe_theme'
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 90 // 90 days
-
-function getThemeCookie(): string | null {
-  if (typeof document === 'undefined') return null
-  const match = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`))
-  return match?.[1] ? decodeURIComponent(match[1]) : null
-}
 
 function setThemeCookie(theme: 'studio' | 'garden') {
   document.cookie = `${COOKIE_NAME}=${theme}; max-age=${COOKIE_MAX_AGE}; path=/; SameSite=Lax`
@@ -20,12 +14,6 @@ function setThemeCookie(theme: 'studio' | 'garden') {
 export default function SplashPage() {
   const router = useRouter()
   const [hovered, setHovered] = useState<'studio' | 'garden' | null>(null)
-
-  useEffect(() => {
-    const saved = getThemeCookie()
-    if (saved === 'studio') router.replace('/dtc')
-    else if (saved === 'garden') router.replace('/saas')
-  }, [router])
 
   function handleChoose(theme: 'studio' | 'garden') {
     setThemeCookie(theme)

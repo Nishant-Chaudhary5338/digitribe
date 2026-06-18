@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils/cn'
 import { Button } from '@/components/ui/button'
+import { updateGa4Consent } from '@/lib/analytics/ga4-consent'
 
 const COOKIE_NAME = 'digitribe_cookie_consent'
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365
@@ -33,11 +34,13 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     setConsentCookie('accepted')
+    updateGa4Consent(true)
     setVisible(false)
   }
 
   const handleDecline = () => {
     setConsentCookie('declined')
+    updateGa4Consent(false)
     setVisible(false)
   }
 

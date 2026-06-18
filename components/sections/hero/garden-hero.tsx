@@ -7,7 +7,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 function OrganicBlobs() {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       {/* Dashed circle top-left */}
       <svg
         className="absolute"
@@ -42,7 +42,15 @@ function OrganicBlobs() {
         viewBox="0 0 40 40"
       >
         <circle cx="20" cy="20" r="10" fill="var(--color-tertiary)" opacity="0.5" />
-        <circle cx="20" cy="20" r="14" fill="none" stroke="var(--color-tertiary)" strokeWidth="0.5" opacity="0.7" />
+        <circle
+          cx="20"
+          cy="20"
+          r="14"
+          fill="none"
+          stroke="var(--color-tertiary)"
+          strokeWidth="0.5"
+          opacity="0.7"
+        />
       </svg>
       {/* Leaf bottom-left */}
       <svg
@@ -84,9 +92,24 @@ function HandDrawnUnderline() {
 }
 
 const FOUNDERS = [
-  { initial: 'N', name: 'Nishant', role: 'Engineering & build', dotStyle: { borderRadius: '60% 50% 60% 50%', background: 'linear-gradient(135deg, #C5704F, #A35538)' } },
-  { initial: 'N', name: 'Nidhi', role: 'Design & UX research', dotStyle: { borderRadius: '50% 60% 50% 60%', background: 'linear-gradient(135deg, #7A8B6E, #5C6E54)' } },
-  { initial: 'M', name: 'Manu', role: 'Paid acquisition & growth', dotStyle: { borderRadius: '60% 60% 50% 50%', background: 'linear-gradient(135deg, #6B3E5C, #4F2D44)' } },
+  {
+    initial: 'N',
+    name: 'Nishant',
+    role: 'Engineering, build & AI',
+    dotStyle: {
+      borderRadius: '60% 50% 60% 50%',
+      background: 'linear-gradient(135deg, #C5704F, #A35538)',
+    },
+  },
+  {
+    initial: 'M',
+    name: 'Manu',
+    role: 'Paid acquisition & growth',
+    dotStyle: {
+      borderRadius: '60% 60% 50% 50%',
+      background: 'linear-gradient(135deg, #6B3E5C, #4F2D44)',
+    },
+  },
 ]
 
 export function GardenHero() {
@@ -113,12 +136,12 @@ export function GardenHero() {
     >
       <OrganicBlobs />
 
-      <div className="relative z-10 max-w-[1280px] mx-auto px-6 sm:px-8 lg:px-14">
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-8 lg:px-14">
         <motion.div
           variants={container}
           initial="initial"
           animate="animate"
-          className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-16 items-start"
+          className="grid grid-cols-1 items-start gap-16 lg:grid-cols-[1.5fr_1fr]"
         >
           {/* Left: content */}
           <div>
@@ -136,10 +159,21 @@ export function GardenHero() {
               >
                 <span
                   aria-hidden="true"
-                  style={{ display: 'inline-block', width: 32, height: 1, background: 'var(--color-accent)', flexShrink: 0 }}
+                  style={{
+                    display: 'inline-block',
+                    width: 32,
+                    height: 1,
+                    background: 'var(--color-accent)',
+                    flexShrink: 0,
+                  }}
                 />
                 A small studio · Delhi · serving EU + US
-                <span aria-hidden="true" style={{ color: 'var(--color-accent)', fontSize: '1rem', marginLeft: 4 }}>✿</span>
+                <span
+                  aria-hidden="true"
+                  style={{ color: 'var(--color-accent)', fontSize: '1rem', marginLeft: 4 }}
+                >
+                  ✿
+                </span>
               </span>
             </motion.div>
 
@@ -156,8 +190,7 @@ export function GardenHero() {
                 color: 'var(--color-text-primary)',
               }}
             >
-              Code, content,{' '}
-              <br />
+              Code, content, <br />
               <span
                 className="relative inline-block"
                 style={{
@@ -168,9 +201,8 @@ export function GardenHero() {
               >
                 conversions
                 <HandDrawnUnderline />
-              </span>
-              {' '}—{' '}
-              <br />
+              </span>{' '}
+              — <br />
               <span
                 style={{
                   fontStyle: 'italic',
@@ -192,11 +224,12 @@ export function GardenHero() {
                 color: 'var(--color-text-body)',
               }}
             >
-              A senior 3-person tribe building conversion-focused websites and running the paid traffic to fill them. We work the way studios used to — small, considered, ours.
+              A senior 2-person tribe building conversion-focused websites, AI agents, and the paid
+              traffic to fill them. We work the way studios used to — small, considered, ours.
             </motion.p>
 
             {/* CTA row */}
-            <motion.div variants={item} className="flex flex-wrap gap-6 items-center">
+            <motion.div variants={item} className="flex flex-wrap items-center gap-6">
               {/* Primary: terracotta pill, 3D push shadow */}
               <Link
                 href="/saas/audit"
@@ -210,7 +243,12 @@ export function GardenHero() {
               >
                 Book a 30-min audit
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <path
+                    d="M3 8H13M13 8L8 3M13 8L8 13"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </Link>
 
@@ -285,7 +323,7 @@ export function GardenHero() {
                 letterSpacing: '-0.01em',
               }}
             >
-              Three senior practitioners. No middle layer.
+              Two senior practitioners. No middle layer.
             </p>
 
             <div className="flex flex-col">
@@ -294,13 +332,12 @@ export function GardenHero() {
                   key={f.name}
                   className="flex items-center gap-4 py-3.5"
                   style={{
-                    borderBottom: i < FOUNDERS.length - 1
-                      ? '1px dotted rgba(45, 36, 24, 0.2)'
-                      : 'none',
+                    borderBottom:
+                      i < FOUNDERS.length - 1 ? '1px dotted rgba(45, 36, 24, 0.2)' : 'none',
                   }}
                 >
                   <div
-                    className="flex items-center justify-center shrink-0"
+                    className="flex shrink-0 items-center justify-center"
                     style={{
                       width: 40,
                       height: 40,
@@ -341,11 +378,11 @@ export function GardenHero() {
           initial={reduced ? undefined : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8, ease: EASE }}
-          className="mt-20 pt-9 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t"
+          className="mt-20 grid grid-cols-2 gap-6 border-t pt-9 sm:grid-cols-4"
           style={{ borderTopStyle: 'dashed', borderTopColor: 'var(--color-border-decorative)' }}
         >
           {[
-            { num: '3', label: 'senior makers' },
+            { num: '2', label: 'senior makers' },
             { num: '5+', label: 'years each' },
             { num: '0', label: 'account managers' },
             { num: 'EU+US', label: 'built for', small: true },
@@ -364,7 +401,9 @@ export function GardenHero() {
               >
                 {num}
               </span>
-              <span style={{ fontSize: '0.8125rem', color: 'var(--color-text-body)', fontWeight: 500 }}>
+              <span
+                style={{ fontSize: '0.8125rem', color: 'var(--color-text-body)', fontWeight: 500 }}
+              >
                 {label}
               </span>
             </div>

@@ -10,7 +10,7 @@ import { generatePageMetadata } from '@/lib/seo/metadata'
 export const metadata: Metadata = generatePageMetadata({
   title: 'Services',
   description:
-    'Two anchors — Build and Grow — three bundled packages, and ten productized services. Fixed scope, fixed price, no surprises. Starting from €1,500.',
+    'Build, Grow, and AI & Automation — three bundled packages and productized services, including custom AI agents and MCP servers. Fixed scope, fixed price, no surprises. Starting from €1,500.',
   path: '/services',
 })
 
@@ -36,7 +36,7 @@ export default function ServicesPage() {
     <>
       <HeroPage
         eyebrow="What we do"
-        headline="Two anchors. Three packages. One outcome: growth you can measure."
+        headline="Build, grow, automate. Three packages. One outcome: growth you can measure."
         sub="Productized engagements with fixed scope and transparent pricing."
       />
 
@@ -48,6 +48,10 @@ export default function ServicesPage() {
         <PricingTable category="grow" theme="ink" />
       </section>
 
+      <section id="automate">
+        <PricingTable category="automate" theme="sand" />
+      </section>
+
       <section id="packages">
         <PackagesGrid />
       </section>
@@ -55,18 +59,13 @@ export default function ServicesPage() {
       {/* Pricing principles */}
       <section className="bg-[#f0ede5] py-24">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-3xl font-bold text-[#0a0e27] mb-12 text-center font-display">
+          <h2 className="font-display mb-12 text-center text-3xl font-bold text-[#0a0e27]">
             How we price things.
           </h2>
           <div className="grid gap-8 sm:grid-cols-3">
             {pricingPrinciples.map((p) => (
-              <div
-                key={p.title}
-                className="rounded-2xl bg-white p-8 shadow-sm"
-              >
-                <h3 className="text-lg font-bold text-[#0a0e27] mb-3 font-display">
-                  {p.title}
-                </h3>
+              <div key={p.title} className="rounded-2xl bg-white p-8 shadow-sm">
+                <h3 className="font-display mb-3 text-lg font-bold text-[#0a0e27]">{p.title}</h3>
                 <p className="text-sm leading-relaxed text-[#0a0e27]/70">{p.body}</p>
               </div>
             ))}

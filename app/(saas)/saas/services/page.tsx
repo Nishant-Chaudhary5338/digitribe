@@ -10,7 +10,7 @@ import { services } from '@/lib/data/services'
 export const metadata: Metadata = {
   title: 'Services — what we build and grow',
   description:
-    'Two anchors — Build and Grow — three bundled packages, and ten productized services. Fixed scope, fixed price, no surprises. Starting from €1,500.',
+    'Build, Grow, and AI & Automation — three bundled packages and productized services, including custom AI agents and MCP servers. Fixed scope, fixed price, no surprises. Starting from €1,500.',
   alternates: { canonical: 'https://digitribe.co/saas/services' },
   openGraph: {
     title: 'Digitribe Services — for SaaS founders',
@@ -40,7 +40,7 @@ export default function SaaSServicesPage() {
     <>
       <HeroPage
         eyebrow="What we do"
-        headline="Two anchors. Three packages. One outcome: growth you can measure."
+        headline="Build, grow, automate. Three packages. One outcome: growth you can measure."
         sub="Productized engagements with fixed scope and transparent pricing."
       />
 
@@ -52,6 +52,10 @@ export default function SaaSServicesPage() {
         <PricingTable category="grow" theme="ink" />
       </section>
 
+      <section id="automate">
+        <PricingTable category="automate" theme="sand" />
+      </section>
+
       <section id="packages">
         <PackagesGrid />
       </section>
@@ -60,7 +64,7 @@ export default function SaaSServicesPage() {
       <section className="py-24" style={{ background: 'var(--color-bg-card-alt)' }}>
         <div className="mx-auto max-w-5xl px-6">
           <h2
-            className="text-3xl font-bold mb-12 text-center"
+            className="mb-12 text-center text-3xl font-bold"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
           >
             How we price things.
@@ -79,12 +83,14 @@ export default function SaaSServicesPage() {
                 }}
               >
                 <h3
-                  className="text-lg font-bold mb-3"
+                  className="mb-3 text-lg font-bold"
                   style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
                 >
                   {p.title}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>{p.body}</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
+                  {p.body}
+                </p>
               </div>
             ))}
           </div>
@@ -92,7 +98,7 @@ export default function SaaSServicesPage() {
       </section>
 
       {/* CTA to audit */}
-      <div className="pb-16 flex justify-center" style={{ background: 'var(--color-bg-card-alt)' }}>
+      <div className="flex justify-center pb-16" style={{ background: 'var(--color-bg-card-alt)' }}>
         <Link
           href="/saas/audit"
           className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm font-semibold"
@@ -109,7 +115,10 @@ export default function SaaSServicesPage() {
 
       <FinalCTA />
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchemas) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchemas) }}
+      />
     </>
   )
 }

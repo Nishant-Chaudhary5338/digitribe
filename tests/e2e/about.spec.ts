@@ -15,10 +15,13 @@ test.describe('About page', () => {
     await expect(h1).toBeVisible()
   })
 
-  test('3 founder cards are present', async ({ page }) => {
+  test('founder cards are present', async ({ page }) => {
     // FoundersGrid full variant — heading "Senior practitioners. Direct contact. No layers."
     // is unique to this section (HeroPage also has "The tribe" but no h3 founder names).
-    const founderSection = page.locator('section').filter({ hasText: 'Senior practitioners' }).first()
+    const founderSection = page
+      .locator('section')
+      .filter({ hasText: 'Senior practitioners' })
+      .first()
     await expect(founderSection).toBeVisible()
 
     // Scroll the section into view so Framer Motion reveals children
@@ -28,16 +31,22 @@ test.describe('About page', () => {
     // FullCard renders one h3 per founder
     const founderNames = founderSection.locator('h3')
     const count = await founderNames.count()
-    expect(count).toBeGreaterThanOrEqual(3)
+    expect(count).toBeGreaterThanOrEqual(2)
   })
 
-  test("\"What we don\'t do\" / \"not for everyone\" section is present", async ({ page }) => {
-    const section = page.locator('section').filter({ hasText: /not for everyone|don't do|don't take/i }).first()
+  test('"What we don\'t do" / "not for everyone" section is present', async ({ page }) => {
+    const section = page
+      .locator('section')
+      .filter({ hasText: /not for everyone|don't do|don't take/i })
+      .first()
     await expect(section).toBeVisible()
   })
 
-  test("\"What we don\'t do\" section lists at least 3 items", async ({ page }) => {
-    const section = page.locator('section').filter({ hasText: /not for everyone|don't do|don't take/i }).first()
+  test('"What we don\'t do" section lists at least 3 items', async ({ page }) => {
+    const section = page
+      .locator('section')
+      .filter({ hasText: /not for everyone|don't do|don't take/i })
+      .first()
     const items = section.locator('li')
     const count = await items.count()
     expect(count).toBeGreaterThanOrEqual(3)

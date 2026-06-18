@@ -17,13 +17,19 @@ const HEADLINE = 'We build conversion-focused websites and run the paid traffic 
 const HEADLINE_WORDS = HEADLINE.split(' ')
 const EASE_EXPRESSIVE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 const TRUST_ITEMS = [
-  '3 specialists',
+  '2 specialists',
   'Zero account managers',
   'Direct contact with the makers',
 ] as const
 
 function TrustDot() {
-  return <span className="inline-block w-1 h-1 rounded-full mx-3 align-middle" style={{ background: 'var(--color-accent)' }} aria-hidden="true" />
+  return (
+    <span
+      className="mx-3 inline-block h-1 w-1 rounded-full align-middle"
+      style={{ background: 'var(--color-accent)' }}
+      aria-hidden="true"
+    />
+  )
 }
 
 function NeutralHero() {
@@ -37,7 +43,7 @@ function NeutralHero() {
 
   return (
     <section
-      className="relative py-32 sm:py-36 lg:py-40 overflow-hidden"
+      className="relative overflow-hidden py-32 sm:py-36 lg:py-40"
       style={{ background: 'var(--color-bg-inverse)' }}
     >
       <Container>
@@ -65,7 +71,7 @@ function NeutralHero() {
                 initial={reducedMotion ? undefined : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 + i * 0.06, ease: EASE_EXPRESSIVE }}
-                className="inline-block mr-[0.25em]"
+                className="mr-[0.25em] inline-block"
               >
                 {word}
               </motion.span>
@@ -84,14 +90,15 @@ function NeutralHero() {
               opacity: 0.75,
             }}
           >
-            A senior 3-person tribe — frontend engineering, design, and paid acquisition — under one roof.
+            A senior 2-person tribe — frontend engineering, AI agents, and paid acquisition — under
+            one roof.
           </motion.p>
 
           <motion.div
             initial={reducedMotion ? undefined : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8, ease: EASE_EXPRESSIVE }}
-            className="mt-10 flex flex-col sm:flex-row items-start gap-4"
+            className="mt-10 flex flex-col items-start gap-4 sm:flex-row"
           >
             <Button asChild variant="primary" size="lg">
               <Link href="/audit">Book a free 30-min audit</Link>

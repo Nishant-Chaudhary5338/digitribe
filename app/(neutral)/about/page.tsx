@@ -9,14 +9,14 @@ import { generatePageMetadata } from '@/lib/seo/metadata'
 export const metadata: Metadata = generatePageMetadata({
   title: 'About Digitribe',
   description:
-    'Three senior operators — one engineer, one designer, one paid acquisition specialist — who got tired of watching agencies over-charge and under-deliver. We built a better model.',
+    'Two senior operators — one engineer, one paid acquisition specialist — who got tired of watching agencies over-charge and under-deliver. We built a better model.',
   path: '/about',
 })
 
 const principles = [
   {
     heading: 'We work at operator level.',
-    body: "Every client gets a senior founder on their account — not an account manager relaying messages to a junior team. You talk directly to the person doing the work.",
+    body: 'Every client gets a senior founder on their account — not an account manager relaying messages to a junior team. You talk directly to the person doing the work.',
   },
   {
     heading: 'We price honestly.',
@@ -24,7 +24,7 @@ const principles = [
   },
   {
     heading: "We're a small team on purpose.",
-    body: "Three people who each specialize deeply beats twelve people where nobody owns anything. We know our limits and we stay within them.",
+    body: 'Two people who each specialize deeply beats twelve people where nobody owns anything. We know our limits and we stay within them.',
   },
 ]
 
@@ -43,29 +43,31 @@ export default function AboutPage() {
     <>
       <HeroPage
         eyebrow="The tribe"
-        headline="Three friends. One agency model that doesn't suck."
+        headline="Two founders. One agency model that doesn't suck."
         sub="We started Digitribe because we kept watching agencies overcharge for under-delivery."
       />
 
       {/* Story section */}
       <section className="bg-[#f0ede5] py-24">
         <div className="mx-auto max-w-3xl px-6">
-          <p className="text-lg leading-relaxed text-[#0a0e27]/80 mb-6">
-            Between us, we have 15+ years building and growing digital products inside large organizations. We've sat in the meetings where agencies presented beautiful decks and then handed work to interns. We've watched clients pay retainers for strategy documents that never shipped.
+          <p className="mb-6 text-lg leading-relaxed text-[#0a0e27]/80">
+            Between us, we have 15+ years building and growing digital products inside large
+            organizations. We've sat in the meetings where agencies presented beautiful decks and
+            then handed work to interns. We've watched clients pay retainers for strategy documents
+            that never shipped.
           </p>
-          <p className="text-lg leading-relaxed text-[#0a0e27]/80 mb-16">
-            So we left our jobs and built the agency we always wanted to hire. Small team, senior operators, productized scope, transparent pricing. We do the work ourselves. Every time.
+          <p className="mb-16 text-lg leading-relaxed text-[#0a0e27]/80">
+            So we left our jobs and built the agency we always wanted to hire. Small team, senior
+            operators, productized scope, transparent pricing. We do the work ourselves. Every time.
           </p>
 
-          <h2 className="text-2xl font-bold text-[#0a0e27] mb-10 font-display">
+          <h2 className="font-display mb-10 text-2xl font-bold text-[#0a0e27]">
             Three principles we don't negotiate on.
           </h2>
           <div className="grid gap-8 sm:grid-cols-3">
             {principles.map((p) => (
               <div key={p.heading} className="flex flex-col gap-3">
-                <h3 className="text-base font-bold text-[#0a0e27] font-display">
-                  {p.heading}
-                </h3>
+                <h3 className="font-display text-base font-bold text-[#0a0e27]">{p.heading}</h3>
                 <p className="text-sm leading-relaxed text-[#0a0e27]/70">{p.body}</p>
               </div>
             ))}
@@ -78,10 +80,10 @@ export default function AboutPage() {
       {/* What we don't do */}
       <section className="bg-[#f0ede5] py-24">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-3xl font-bold text-[#0a0e27] mb-4 font-display">
+          <h2 className="font-display mb-4 text-3xl font-bold text-[#0a0e27]">
             We're not for everyone.
           </h2>
-          <p className="text-[#0a0e27]/70 mb-10 text-lg">
+          <p className="mb-10 text-lg text-[#0a0e27]/70">
             We'd rather be the right fit for fewer clients than the wrong fit for many.
           </p>
           <ul className="space-y-4">
