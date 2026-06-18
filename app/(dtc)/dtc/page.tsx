@@ -7,6 +7,7 @@ import { HowWeWork } from '@/components/sections/how-we-work'
 import { IdealClients } from '@/components/sections/ideal-clients'
 import { ProcessSteps } from '@/components/sections/process-steps'
 import { FoundersGrid } from '@/components/sections/founders-grid'
+import { AICallout } from '@/components/sections/ai-callout'
 import { FinalCTA } from '@/components/sections/final-cta'
 import { organizationSchema } from '@/lib/schema/organization'
 import { faqPageSchema } from '@/lib/schema/faq-page'
@@ -50,6 +51,7 @@ export default function DTCHomePage() {
       <TrustStrip />
       <ProblemStatement />
       <TwoAnchors />
+      <AICallout theme="studio" />
       <HowWeWork />
       <IdealClients />
       <ProcessSteps />

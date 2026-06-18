@@ -1,9 +1,28 @@
 import Link from 'next/link'
 
 const NAV_LINKS = [
-  { group: 'Work', links: [{ label: 'Services', href: '/saas/services' }, { label: 'Audit', href: '/saas/audit' }] },
-  { group: 'Tribe', links: [{ label: 'About', href: '/saas/about' }, { label: 'Contact', href: '/saas/contact' }] },
-  { group: 'Field Notes', links: [{ label: 'Workshop', href: '/workshop' }, { label: 'Privacy', href: '/privacy' }, { label: 'Terms', href: '/terms' }] },
+  {
+    group: 'Work',
+    links: [
+      { label: 'Services', href: '/saas/services' },
+      { label: 'Audit', href: '/saas/audit' },
+    ],
+  },
+  {
+    group: 'Tribe',
+    links: [
+      { label: 'About', href: '/saas/about' },
+      { label: 'Contact', href: '/saas/contact' },
+    ],
+  },
+  {
+    group: 'Field Notes',
+    links: [
+      { label: 'Workshop', href: '/workshop' },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
+    ],
+  },
 ] as const
 
 export function GardenFooter() {
@@ -15,7 +34,7 @@ export function GardenFooter() {
         fontFamily: 'var(--font-body)',
       }}
     >
-      <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-14 py-16 lg:py-24">
+      <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-14 lg:py-24">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
           <div className="lg:col-span-2">
@@ -45,14 +64,25 @@ export function GardenFooter() {
               a small studio
             </p>
             <p
-              className="text-base leading-relaxed max-w-[220px] mb-8"
-              style={{ color: 'var(--color-text-body)', fontFamily: 'var(--font-display)', fontVariationSettings: "'opsz' 144, 'SOFT' 100, 'wght' 400" }}
+              className="mb-8 max-w-[220px] text-base leading-relaxed"
+              style={{
+                color: 'var(--color-text-body)',
+                fontFamily: 'var(--font-display)',
+                fontVariationSettings: "'opsz' 144, 'SOFT' 100, 'wght' 400",
+              }}
             >
               Code, content, conversions — under one roof.
             </p>
+            <p
+              className="mb-8 max-w-[260px] text-sm leading-relaxed"
+              style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}
+            >
+              The assistant in the corner? We built it the way we&apos;d build yours — Claude, the
+              AI SDK, real guardrails. Ask it anything.
+            </p>
             <Link
               href="/dtc"
-              className="text-sm opacity-50 hover:opacity-80 transition-opacity"
+              className="text-sm opacity-50 transition-opacity hover:opacity-80"
               style={{
                 color: 'var(--color-text-muted)',
                 fontFamily: 'var(--font-body)',
@@ -77,7 +107,7 @@ export function GardenFooter() {
               >
                 {col.group}
               </h3>
-              <ul className="flex flex-col gap-3 list-none">
+              <ul className="flex list-none flex-col gap-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -102,7 +132,7 @@ export function GardenFooter() {
         />
 
         {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
           <p
             className="text-sm"
             style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}

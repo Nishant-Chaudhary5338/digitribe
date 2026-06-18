@@ -12,6 +12,13 @@ interface PricingTableProps {
   theme: 'ink' | 'sand'
 }
 
+function formatUsd(service: Service): string {
+  const start = `$${service.startingPriceUsd.toLocaleString()}`
+  return service.ceilingPriceUsd
+    ? `${start}–$${service.ceilingPriceUsd.toLocaleString()}`
+    : `From ${start}`
+}
+
 function ServiceRow({ service, dark }: { service: Service; dark: boolean }) {
   const text = dark ? 'var(--color-text-on-inverse)' : 'var(--color-text-primary)'
   const muted = dark ? 'rgba(240,237,229,0.6)' : 'var(--color-text-muted)'
@@ -36,7 +43,7 @@ function ServiceRow({ service, dark }: { service: Service; dark: boolean }) {
         {service.timeline}
       </p>
       <p className="font-medium" style={{ color: text }}>
-        From €{service.startingPriceEur.toLocaleString()}
+        {formatUsd(service)}
       </p>
       <div>
         <Button asChild variant="secondary" className="px-4 py-1.5 text-sm">
@@ -76,10 +83,10 @@ function ServiceCard({ service, dark }: { service: Service; dark: boolean }) {
         </div>
         <div>
           <span className="mb-0.5 block text-xs tracking-wide uppercase" style={{ color: muted }}>
-            Starting from
+            Price
           </span>
           <span className="font-medium" style={{ color: text }}>
-            €{service.startingPriceEur.toLocaleString()}
+            {formatUsd(service)}
           </span>
         </div>
       </div>
@@ -131,7 +138,7 @@ export function PricingTable({ category, theme }: PricingTableProps) {
               className="mb-2 hidden gap-4 border-b-2 pb-3 lg:grid lg:grid-cols-[1fr_160px_140px_160px]"
               style={{ borderBottomColor: border }}
             >
-              {['Service', 'Timeline', 'Starting from', 'Action'].map((h) => (
+              {['Service', 'Timeline', 'Price', 'Action'].map((h) => (
                 <p
                   key={h}
                   className="text-xs font-medium tracking-wide uppercase"

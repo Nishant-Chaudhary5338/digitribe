@@ -171,9 +171,9 @@ export function StudioHero() {
               fontFamily: 'var(--font-display)',
               fontVariationSettings: "'wdth' 92, 'opsz' 96",
               fontWeight: 800,
-              fontSize: 'clamp(3.5rem, 8vw, 6.5rem)',
-              lineHeight: 0.93,
-              letterSpacing: '-0.05em',
+              fontSize: 'var(--display-lg)',
+              lineHeight: 'var(--leading-display)',
+              letterSpacing: 'var(--tracking-display)',
               color: 'var(--color-text-primary)',
             }}
           >
@@ -194,15 +194,26 @@ export function StudioHero() {
             </span>{' '}
             — <br />
             under one{' '}
-            <span
-              style={{
-                fontFamily: 'var(--font-accent)',
-                fontStyle: 'italic',
-                fontWeight: 400,
-                letterSpacing: '-0.02em',
-              }}
-            >
-              roof.
+            <span className="relative inline-block">
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0"
+                style={{
+                  bottom: '12px',
+                  height: '18px',
+                  background: 'var(--color-tertiary)',
+                  zIndex: -1,
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontVariationSettings: "'wght' 800, 'wdth' 75, 'opsz' 96",
+                  letterSpacing: '-0.06em',
+                }}
+              >
+                roof.
+              </span>
             </span>
           </motion.h1>
 
@@ -276,14 +287,18 @@ export function StudioHero() {
           {/* Stat stamps */}
           <motion.div
             variants={item}
-            className="grid grid-cols-2 gap-8 border-t-[2.5px] pt-9 sm:grid-cols-4"
+            className="grid grid-cols-1 gap-8 border-t-[2.5px] pt-9 sm:grid-cols-3"
             style={{ borderTopColor: 'var(--color-border)' }}
           >
             {[
-              { num: '2', label: 'senior makers', color: 'var(--color-secondary)' },
-              { num: '5+', label: 'years each', color: 'var(--color-accent)' },
-              { num: '0', label: 'account managers', color: 'var(--color-text-primary)' },
-              { num: 'EU+US', label: 'built for', color: 'var(--color-secondary)', small: true },
+              { num: '0', label: 'account managers', color: 'var(--color-accent)' },
+              { num: '2', label: 'senior founders', color: 'var(--color-secondary)' },
+              {
+                num: '1',
+                label: 'team · build → growth',
+                color: 'var(--color-text-primary)',
+                small: true,
+              },
             ].map(({ num, label, color, small }) => (
               <div key={label} className="flex flex-col gap-1.5">
                 <span

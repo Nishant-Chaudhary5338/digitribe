@@ -2,7 +2,7 @@ export type Founder = {
   slug: string
   name: string
   role: string
-  lane: 'build' | 'design' | 'grow'
+  lane: 'build' | 'grow'
   oneLiner: string
   bio: string
   stack: string[]
@@ -65,6 +65,6 @@ export const founders: Founder[] = [
     },
     photo: '/founders/manu.svg', // MOCK — replace with real photo
     initials: 'M',
-    accentColor: '#0A0E27',
+    accentColor: '#6E8060',
   },
 ]

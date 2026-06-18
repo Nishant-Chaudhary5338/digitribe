@@ -3,7 +3,6 @@ import { ChatWidget } from '@/components/chat/chat-widget'
 import {
   Bricolage_Grotesque,
   JetBrains_Mono,
-  Instrument_Serif,
   Fraunces,
   Inter_Tight,
   IBM_Plex_Mono,
@@ -26,14 +25,6 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-jetbrains-mono',
-  display: 'swap',
-})
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['normal', 'italic'],
-  variable: '--font-instrument-serif',
   display: 'swap',
 })
 
@@ -89,7 +80,6 @@ export default function RootLayout({
       className={[
         bricolage.variable,
         jetbrainsMono.variable,
-        instrumentSerif.variable,
         fraunces.variable,
         interTight.variable,
         ibmPlexMono.variable,

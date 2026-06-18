@@ -32,7 +32,7 @@ export function StudioFooter() {
     >
       {/* Top band */}
       <div
-        className="w-full py-5 px-5 sm:px-8 lg:px-12 flex items-center justify-between border-b"
+        className="flex w-full items-center justify-between border-b px-5 py-5 sm:px-8 lg:px-12"
         style={{ borderBottomColor: 'rgba(244, 239, 226, 0.15)' }}
       >
         <span
@@ -47,7 +47,7 @@ export function StudioFooter() {
           Digitribe<span style={{ color: 'var(--color-accent)' }}>.</span>
         </span>
         <span
-          className="text-xs uppercase tracking-[0.12em] opacity-50"
+          className="text-xs tracking-[0.12em] uppercase opacity-50"
           style={{ fontFamily: 'var(--font-mono)' }}
         >
           EST. 2026
@@ -55,12 +55,12 @@ export function StudioFooter() {
       </div>
 
       {/* Main footer grid */}
-      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-14 lg:py-20">
+      <div className="mx-auto max-w-[1280px] px-5 py-14 sm:px-8 lg:px-12 lg:py-20">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 lg:grid-cols-4">
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-2">
             <p
-              className="text-2xl font-bold leading-tight mb-8 max-w-xs"
+              className="mb-8 max-w-xs text-2xl leading-tight font-bold"
               style={{
                 fontFamily: 'var(--font-display)',
                 fontWeight: 800,
@@ -68,11 +68,21 @@ export function StudioFooter() {
                 letterSpacing: '-0.03em',
               }}
             >
-              CODE, CONTENT,<br />CONVERSIONS —<br />UNDER ONE ROOF.
+              CODE, CONTENT,
+              <br />
+              CONVERSIONS —<br />
+              UNDER ONE ROOF.
+            </p>
+            <p
+              className="mb-8 max-w-xs text-sm leading-relaxed opacity-70"
+              style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-on-inverse)' }}
+            >
+              // the assistant in the corner? we built it the way we&apos;d build yours — Claude,
+              the AI SDK, real guardrails. ask it anything.
             </p>
             <Link
               href="/saas"
-              className="text-xs uppercase tracking-[0.1em] opacity-50 hover:opacity-80 transition-opacity"
+              className="text-xs tracking-[0.1em] uppercase opacity-50 transition-opacity hover:opacity-80"
               style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-on-inverse)' }}
             >
               Switch view → SaaS
@@ -83,18 +93,21 @@ export function StudioFooter() {
           {NAV_COLS.map((col) => (
             <div key={col.heading}>
               <h3
-                className="text-[11px] uppercase tracking-[0.12em] mb-5 opacity-50"
+                className="mb-5 text-[11px] tracking-[0.12em] uppercase opacity-50"
                 style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-on-inverse)' }}
               >
                 {col.heading}
               </h3>
-              <ul className="flex flex-col gap-3 list-none">
+              <ul className="flex list-none flex-col gap-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm opacity-70 hover:opacity-100 transition-opacity"
-                      style={{ color: 'var(--color-text-on-inverse)', fontFamily: 'var(--font-mono)' }}
+                      className="text-sm opacity-70 transition-opacity hover:opacity-100"
+                      style={{
+                        color: 'var(--color-text-on-inverse)',
+                        fontFamily: 'var(--font-mono)',
+                      }}
                     >
                       {link.label}
                     </Link>
@@ -107,7 +120,7 @@ export function StudioFooter() {
 
         {/* Bottom bar */}
         <div
-          className="mt-14 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 border-t text-[11px] uppercase tracking-[0.08em] opacity-50"
+          className="mt-14 flex flex-col items-center justify-between gap-3 border-t pt-6 text-[11px] tracking-[0.08em] uppercase opacity-50 sm:flex-row"
           style={{
             borderTopColor: 'rgba(244, 239, 226, 0.15)',
             fontFamily: 'var(--font-mono)',

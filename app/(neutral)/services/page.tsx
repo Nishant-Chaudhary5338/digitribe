@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { HeroPage } from '@/components/sections/hero-page'
 import { PricingTable } from '@/components/sections/pricing-table'
+import { AIPracticeBoard } from '@/components/sections/ai-practice-board'
 import { PackagesGrid } from '@/components/sections/packages-grid'
 import { FinalCTA } from '@/components/sections/final-cta'
 import { serviceSchema } from '@/lib/schema/service'
@@ -49,7 +50,7 @@ export default function ServicesPage() {
       </section>
 
       <section id="automate">
-        <PricingTable category="automate" theme="sand" />
+        <AIPracticeBoard theme="sand" />
       </section>
 
       <section id="packages">

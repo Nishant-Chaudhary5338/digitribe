@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* ─── Type Scale ─── */
@@ -13,6 +13,30 @@
   --text-5xl: 3rem;
   --text-6xl: 3.75rem;
   --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
+  --text-9xl: 8rem;
+
+  /* ─── Fluid display steps (use in heroes/section headers, not inline clamps) ─── */
+  --display-sm: clamp(2rem, 1.2rem + 3.5vw, 3rem);
+  --display-md: clamp(2.75rem, 1.5rem + 5vw, 4.5rem);
+  --display-lg: clamp(3.5rem, 2rem + 7vw, 6.5rem);
+  --display-xl: clamp(4rem, 2rem + 9vw, 8.5rem);
+
+  /* ─── Tracking + leading ─── */
+  --tracking-display: -0.05em;
+  --tracking-tight: -0.02em;
+  --tracking-label: 0.12em;
+  --leading-display: 0.93;
+  --leading-tight: 1.05;
+  --leading-body: 1.55;
+
+  /* ─── Section rhythm + measure ─── */
+  --space-section-sm: clamp(3rem, 6vw, 5rem);
+  --space-section-md: clamp(4rem, 8vw, 7rem);
+  --space-section-lg: clamp(6rem, 12vw, 11rem);
+  --measure: 68ch;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --container-max: 1280px;
 
   /* ─── Border Radius ─── */
   --radius-sm: 0.25rem;
@@ -34,6 +58,7 @@
   --duration-deliberate: 600ms;
   --easing-out: cubic-bezier(0.22, 1, 0.36, 1);
   --easing-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ─── Breakpoints ─── */
   --breakpoint-sm: 640px;
@@ -45,33 +70,36 @@
 
 /* ─── Neutral fallback (splash, legal, workshop, 404) ─── */
 :root {
-  --color-bg-page: #F2EAD8;
+  --color-bg-page: #f2ead8;
   --color-bg-card: rgba(255, 251, 240, 0.7);
-  --color-bg-card-alt: #F8F2E0;
-  --color-bg-inverse: #2D2418;
+  --color-bg-card-alt: #f8f2e0;
+  --color-bg-inverse: #2d2418;
 
-  --color-text-primary: #1C0A00;      /* Darker: 5.2:1 on terracotta — WCAG AA */
-  --color-text-body: #3A3028;
-  --color-text-muted: #4D6040;        /* Darkened sage: 5.6:1 on oat bg — WCAG AA */
-  --color-text-on-inverse: #F2EAD8;
+  --color-text-primary: #1c0a00; /* Darker: 5.2:1 on terracotta — WCAG AA */
+  --color-text-body: #3a3028;
+  --color-text-muted: #4d6040; /* Darkened sage: 5.6:1 on oat bg — WCAG AA */
+  --color-text-on-inverse: #f2ead8;
 
-  --color-accent: #C5704F;
-  --color-accent-soft: #E8C9B0;
-  --color-secondary: #7A8B6E;
-  --color-tertiary: #FFCD55;
+  --color-accent: #c5704f;
+  --color-accent-soft: #e8c9b0;
+  --color-secondary: #7a8b6e;
+  --color-tertiary: #ffcd55;
 
-  --color-success: #5C6E54;
-  --color-warning: #C5704F;
-  --color-error: #A8443D;
+  --color-success: #5c6e54;
+  --color-warning: #c5704f;
+  --color-error: #a8443d;
 
   --color-border: rgba(45, 36, 24, 0.12);
   --color-border-strong: rgba(45, 36, 24, 0.3);
   --color-border-decorative: rgba(45, 36, 24, 0.3);
 
   /* Founder dot gradients — neutral fallback */
-  --founder-dot-1: linear-gradient(135deg, #C5704F, #A35538);
-  --founder-dot-2: linear-gradient(135deg, #7A8B6E, #5C6E54);
-  --founder-dot-3: linear-gradient(135deg, #6B3E5C, #4F2D44);
+  --founder-dot-1: linear-gradient(135deg, #c5704f, #a35538);
+  --founder-dot-2: linear-gradient(135deg, #7a8b6e, #5c6e54);
+
+  /* Texture (off for neutral routes) */
+  --grain-page: none;
+  --grain-page-size: 6px 6px;
 
   --font-display: var(--font-inter-tight, system-ui, sans-serif);
   --font-body: var(--font-inter-tight, system-ui, sans-serif);
@@ -87,40 +115,40 @@
 }
 
 /* ─── Studio theme (DTC / Riso Workshop) ─── */
-[data-theme="studio"] {
+[data-theme='studio'] {
   /* Surfaces */
-  --color-bg-page: #F4EFE2;
-  --color-bg-card: #FAF6E8;
-  --color-bg-card-alt: #FFFCED;
-  --color-bg-inverse: #1A2233;
+  --color-bg-page: #f2ecdb;
+  --color-bg-card: #faf6e8;
+  --color-bg-card-alt: #fffced;
+  --color-bg-inverse: #141b2b;
 
   /* Text */
-  --color-text-primary: #1A2233;
-  --color-text-body: #2D3548;
-  --color-text-muted: #4A5668;        /* Darkened: 5.1:1 on Studio card bg — WCAG AA */
-  --color-text-on-inverse: #F4EFE2;
+  --color-text-primary: #141b2b;
+  --color-text-body: #2d3548;
+  --color-text-muted: #4a5668; /* Darkened: 5.1:1 on Studio card bg — WCAG AA */
+  --color-text-on-inverse: #f2ecdb;
 
   /* Accents */
-  --color-accent: #FF4F8B;
-  --color-accent-soft: #FFCAD4;
-  --color-secondary: #2841DD;
-  --color-tertiary: #FFD700;
+  --color-accent: #f5356f;
+  --color-accent-soft: #ffd0dc;
+  --color-secondary: #2438c7;
+  --color-tertiary: #ffd400;
 
   /* Semantic */
-  --color-success: #2D7A4A;
-  --color-warning: #C97A14;
-  --color-error: #B92F2F;
+  --color-success: #2d7a4a;
+  --color-warning: #c97a14;
+  --color-error: #b92f2f;
 
   /* Borders */
-  --color-border: #1A2233;
-  --color-border-strong: #1A2233;
+  --color-border: #1a2233;
+  --color-border-strong: #1a2233;
   --color-border-decorative: rgba(26, 34, 51, 0.3);
 
   /* Typography */
   --font-display: var(--font-bricolage, 'Bricolage Grotesque', system-ui, sans-serif);
   --font-body: var(--font-bricolage, 'Bricolage Grotesque', system-ui, sans-serif);
   --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono', ui-monospace, monospace);
-  --font-accent: var(--font-instrument-serif, 'Instrument Serif', Georgia, serif);
+  --font-accent: var(--font-bricolage, 'Bricolage Grotesque', system-ui, sans-serif);
 
   /* Layout */
   --radius-theme-sm: 0px;
@@ -131,40 +159,42 @@
   --shadow-cta: 7px 7px 0 var(--color-secondary);
 
   /* Decorative */
-  --grain: radial-gradient(circle at 1px 1px, rgba(26, 34, 51, 0.15) 1px, transparent 1.5px);
+  --grain: radial-gradient(circle at 1px 1px, rgba(20, 27, 43, 0.15) 1px, transparent 1.5px);
   --grain-size: 6px 6px;
+  /* Faint page-level wash — printed-paper feel across the whole DTC site */
+  --grain-page: radial-gradient(circle at 1px 1px, rgba(20, 27, 43, 0.06) 1px, transparent 1.6px);
+  --grain-page-size: 6px 6px;
 
-  /* Founder dot gradients — Studio: riso pink / electric blue / navy */
-  --founder-dot-1: linear-gradient(135deg, #FF4F8B, #CC0055);
-  --founder-dot-2: linear-gradient(135deg, #2841DD, #1225A0);
-  --founder-dot-3: linear-gradient(135deg, #1A2233, #0F1629);
+  /* Founder dot gradients — Studio: riso pink / electric blue */
+  --founder-dot-1: linear-gradient(135deg, #f5356f, #cc0055);
+  --founder-dot-2: linear-gradient(135deg, #2438c7, #1225a0);
 }
 
 /* ─── Garden theme (SaaS / Botanical) ─── */
-[data-theme="garden"] {
+[data-theme='garden'] {
   /* Surfaces */
-  --color-bg-page: #F0E6CE;
+  --color-bg-page: #f0e6ce;
   --color-bg-card: rgba(255, 251, 240, 0.65);
-  --color-bg-card-alt: #F8F1DC;
-  --color-bg-inverse: #2D2418;
+  --color-bg-card-alt: #f8f1dc;
+  --color-bg-inverse: #2d2418;
 
   /* Text */
-  --color-text-primary: #1C0A00;      /* Match neutral — ensures contrast on terracotta */
-  --color-text-body: #3A3028;
-  --color-text-muted: #4D6040;        /* Darkened: 5.6:1 on oat bg — WCAG AA */
-  --color-text-on-inverse: #F0E6CE;
+  --color-text-primary: #241200; /* Deep brown — carries body text, ≥7:1 on paper */
+  --color-text-body: #3a3028;
+  --color-text-muted: #4d6040; /* Darkened: 5.6:1 on oat bg — WCAG AA */
+  --color-text-on-inverse: #f0e6ce;
 
   /* Accents */
-  --color-accent: #C5704F;
-  --color-accent-soft: #E8C9B0;
-  --color-secondary: #7A8B6E;
-  --color-tertiary: #FFCD55;
-  --color-quaternary: #6B3E5C;
+  --color-accent: #be6443; /* Terracotta — accent only, never body text */
+  --color-accent-soft: #e8c9b0;
+  --color-secondary: #6e8060;
+  --color-tertiary: #ffcd55;
+  --color-quaternary: #6b3e5c;
 
   /* Semantic */
-  --color-success: #5C6E54;
-  --color-warning: #C5704F;
-  --color-error: #A8443D;
+  --color-success: #5c6e54;
+  --color-warning: #c5704f;
+  --color-error: #a8443d;
 
   /* Borders */
   --color-border: rgba(45, 36, 24, 0.12);
@@ -188,16 +218,21 @@
 
   /* Decorative */
   --grain: none;
+  /* Subtle paper-fiber wash — warm oat reads as stock, not flat fill */
+  --grain-page: radial-gradient(circle at 1px 1px, rgba(45, 36, 24, 0.045) 1px, transparent 1.6px);
+  --grain-page-size: 7px 7px;
 
-  /* Founder dot gradients — Garden: terracotta / sage / plum */
-  --founder-dot-1: linear-gradient(135deg, #C5704F, #A35538);
-  --founder-dot-2: linear-gradient(135deg, #7A8B6E, #5C6E54);
-  --founder-dot-3: linear-gradient(135deg, #6B3E5C, #4F2D44);
+  /* Founder dot gradients — Garden: terracotta / sage */
+  --founder-dot-1: linear-gradient(135deg, #be6443, #a35538);
+  --founder-dot-2: linear-gradient(135deg, #6e8060, #5c6e54);
 }
 
 /* ─── Base ─── */
 body {
-  background: var(--color-bg-page);
+  background-color: var(--color-bg-page);
+  background-image: var(--grain-page, none);
+  background-size: var(--grain-page-size, 6px 6px);
+  background-attachment: fixed;
   color: var(--color-text-body);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -206,8 +241,8 @@ body {
 }
 
 /* When a theme wrapper is present, its background fills the page */
-[data-theme="studio"],
-[data-theme="garden"] {
+[data-theme='studio'],
+[data-theme='garden'] {
   min-height: 100svh;
 }
 
@@ -253,31 +288,35 @@ body {
 }
 
 /* ─── Studio: Primary CTA button ─── */
-[data-theme="studio"] .btn-primary {
+[data-theme='studio'] .btn-primary {
   border: 2.5px solid var(--color-border);
   border-radius: 0;
   box-shadow: 7px 7px 0 var(--color-secondary);
-  transition: box-shadow var(--duration-fast), transform var(--duration-fast);
+  transition:
+    box-shadow var(--duration-fast),
+    transform var(--duration-fast);
 }
-[data-theme="studio"] .btn-primary:hover {
+[data-theme='studio'] .btn-primary:hover {
   box-shadow: 4px 4px 0 var(--color-secondary);
   transform: translate(3px, 3px);
 }
 
 /* ─── Garden: Primary CTA button ─── */
-[data-theme="garden"] .btn-primary {
+[data-theme='garden'] .btn-primary {
   border-radius: 999px;
   box-shadow: 0 5px 0 var(--color-text-primary);
   border: none;
-  transition: box-shadow var(--duration-fast), transform var(--duration-fast);
+  transition:
+    box-shadow var(--duration-fast),
+    transform var(--duration-fast);
 }
-[data-theme="garden"] .btn-primary:hover {
+[data-theme='garden'] .btn-primary:hover {
   transform: translateY(2px);
   box-shadow: 0 3px 0 var(--color-text-primary);
 }
 
 /* ─── Halftone grain (Studio only) ─── */
-[data-theme="studio"] .grain-bg::before {
+[data-theme='studio'] .grain-bg::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -290,19 +329,19 @@ body {
 
 /* ─── Riso shapes (Studio only) ─── */
 .riso-pink {
-  background: #FF4F8B;
+  background: #f5356f;
   border-radius: 50%;
   mix-blend-mode: multiply;
   opacity: 0.92;
 }
 .riso-blue {
-  background: #2841DD;
+  background: #2438c7;
   border-radius: 50%;
   mix-blend-mode: multiply;
   opacity: 0.85;
 }
 .riso-yellow {
-  background: #FFD700;
+  background: #ffd400;
   mix-blend-mode: multiply;
   opacity: 0.95;
 }

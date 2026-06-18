@@ -378,14 +378,13 @@ export function GardenHero() {
           initial={reduced ? undefined : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8, ease: EASE }}
-          className="mt-20 grid grid-cols-2 gap-6 border-t pt-9 sm:grid-cols-4"
+          className="mt-20 grid grid-cols-1 gap-6 border-t pt-9 sm:grid-cols-3"
           style={{ borderTopStyle: 'dashed', borderTopColor: 'var(--color-border-decorative)' }}
         >
           {[
-            { num: '2', label: 'senior makers' },
-            { num: '5+', label: 'years each' },
             { num: '0', label: 'account managers' },
-            { num: 'EU+US', label: 'built for', small: true },
+            { num: '2', label: 'senior founders' },
+            { num: '1', label: 'team · build → growth', small: true },
           ].map(({ num, label, small }) => (
             <div key={label} className="flex flex-col gap-1.5">
               <span
