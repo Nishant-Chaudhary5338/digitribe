@@ -211,7 +211,29 @@ export function FoundersGrid({ variant }: FoundersGridProps) {
           </div>
         </Reveal>
 
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="relative mx-auto grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2">
+          {/* Founder seam — two people, one team, joined at the center. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center sm:flex"
+            style={{ zIndex: 1 }}
+          >
+            <span
+              style={{ width: 12, height: 2, background: 'var(--color-accent)', opacity: 0.5 }}
+            />
+            <span
+              style={{
+                width: 10,
+                height: 10,
+                margin: '0 2px',
+                background: 'var(--color-accent)',
+                transform: 'rotate(45deg)',
+              }}
+            />
+            <span
+              style={{ width: 12, height: 2, background: 'var(--color-accent)', opacity: 0.5 }}
+            />
+          </div>
           {founders.map((founder, index) =>
             isCompact ? (
               <CompactCard key={founder.slug} founder={founder} index={index} />

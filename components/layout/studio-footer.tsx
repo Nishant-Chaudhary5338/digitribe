@@ -77,8 +77,8 @@ export function StudioFooter() {
               className="mb-8 max-w-xs text-sm leading-relaxed opacity-70"
               style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-text-on-inverse)' }}
             >
-              // the assistant in the corner? we built it the way we&apos;d build yours — Claude,
-              the AI SDK, real guardrails. ask it anything.
+              // the assistant in the corner? we built it the way we&apos;d build yours — the AI
+              SDK, real guardrails, real evals. ask it anything.
             </p>
             <Link
               href="/saas"

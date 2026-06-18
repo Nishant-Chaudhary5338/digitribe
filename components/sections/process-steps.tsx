@@ -2,7 +2,7 @@ import { Eyebrow } from '@/components/primitives/eyebrow'
 import { Headline } from '@/components/primitives/headline'
 import { BodyText } from '@/components/primitives/body-text'
 import { Reveal } from '@/components/primitives/reveal'
-import { Container } from '@/components/layout/container'
+import { SectionShell } from '@/components/layout/section-shell'
 
 interface Step {
   number: string
@@ -35,52 +35,44 @@ const steps: Step[] = [
 
 export function ProcessSteps() {
   return (
-    <section
-      id="process"
-      style={{
-        background: 'var(--color-bg-card-alt)',
-        paddingBlock: 'var(--space-section-md)',
-      }}
-    >
-      <Container>
-        <Reveal>
-          <div className="mb-12 text-center">
-            <Eyebrow style={{ color: 'var(--color-text-muted)' }}>Process</Eyebrow>
-            <Headline as="h2" className="mt-4" style={{ color: 'var(--color-text-primary)' }}>
-              From 'let's talk' to live in 4 weeks.
-            </Headline>
-          </div>
-        </Reveal>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, index) => (
-            <Reveal key={step.number} delay={index * 0.1}>
-              <div className="flex flex-col">
-                <span
-                  className="mb-3 text-[80px] leading-none font-bold select-none lg:text-[96px]"
-                  style={{
-                    color: 'var(--color-accent)',
-                    opacity: 0.22,
-                    fontFamily: 'var(--font-display)',
-                  }}
-                >
-                  {step.number}
-                </span>
-                <Headline
-                  as="h3"
-                  className="mb-2 text-lg"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  {step.title}
-                </Headline>
-                <BodyText className="text-sm" style={{ color: 'var(--color-text-body)' }}>
-                  {step.body}
-                </BodyText>
-              </div>
-            </Reveal>
-          ))}
+    <SectionShell id="process" tone="card" size="md">
+      <Reveal>
+        <div className="mb-12 text-center">
+          <Eyebrow style={{ color: 'var(--color-text-muted)' }}>Process</Eyebrow>
+          <Headline as="h2" className="mt-4" style={{ color: 'var(--color-text-primary)' }}>
+            From 'let's talk' to live in 4 weeks.
+          </Headline>
         </div>
-      </Container>
-    </section>
+      </Reveal>
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((step, index) => (
+          <Reveal key={step.number} delay={index * 0.1}>
+            <div className="flex flex-col">
+              <span
+                className="mb-3 text-[80px] leading-none font-bold select-none lg:text-[96px]"
+                style={{
+                  color: 'var(--color-accent)',
+                  opacity: 0.22,
+                  fontFamily: 'var(--font-display)',
+                }}
+              >
+                {step.number}
+              </span>
+              <Headline
+                as="h3"
+                className="mb-2 text-lg"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                {step.title}
+              </Headline>
+              <BodyText className="text-sm" style={{ color: 'var(--color-text-body)' }}>
+                {step.body}
+              </BodyText>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </SectionShell>
   )
 }

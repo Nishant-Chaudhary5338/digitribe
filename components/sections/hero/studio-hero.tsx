@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'motion/react'
+import { StatRow } from '@/components/sections/stat-row'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -285,48 +286,15 @@ export function StudioHero() {
           </motion.div>
 
           {/* Stat stamps */}
-          <motion.div
-            variants={item}
-            className="grid grid-cols-1 gap-8 border-t-[2.5px] pt-9 sm:grid-cols-3"
-            style={{ borderTopColor: 'var(--color-border)' }}
-          >
-            {[
-              { num: '0', label: 'account managers', color: 'var(--color-accent)' },
-              { num: '2', label: 'senior founders', color: 'var(--color-secondary)' },
-              {
-                num: '1',
-                label: 'team · build → growth',
-                color: 'var(--color-text-primary)',
-                small: true,
-              },
-            ].map(({ num, label, color, small }) => (
-              <div key={label} className="flex flex-col gap-1.5">
-                <span
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontVariationSettings: "'wdth' 88, 'opsz' 96",
-                    fontWeight: 800,
-                    fontSize: small ? '2.375rem' : '3.25rem',
-                    lineHeight: 1,
-                    color,
-                    letterSpacing: '-0.04em',
-                  }}
-                >
-                  {num}
-                </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.6875rem',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    color: 'var(--color-text-muted)',
-                  }}
-                >
-                  {label}
-                </span>
-              </div>
-            ))}
+          <motion.div variants={item}>
+            <StatRow
+              theme="studio"
+              stats={[
+                { num: '0', label: 'account managers' },
+                { num: '2', label: 'senior founders' },
+                { num: '1', label: 'team · build → growth' },
+              ]}
+            />
           </motion.div>
         </motion.div>
       </div>

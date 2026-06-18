@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'motion/react'
+import { StatRow } from '@/components/sections/stat-row'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -378,35 +379,16 @@ export function GardenHero() {
           initial={reduced ? undefined : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8, ease: EASE }}
-          className="mt-20 grid grid-cols-1 gap-6 border-t pt-9 sm:grid-cols-3"
-          style={{ borderTopStyle: 'dashed', borderTopColor: 'var(--color-border-decorative)' }}
+          className="mt-20"
         >
-          {[
-            { num: '0', label: 'account managers' },
-            { num: '2', label: 'senior founders' },
-            { num: '1', label: 'team · build → growth', small: true },
-          ].map(({ num, label, small }) => (
-            <div key={label} className="flex flex-col gap-1.5">
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontStyle: 'italic',
-                  fontVariationSettings: "'opsz' 144, 'SOFT' 80, 'wght' 500",
-                  fontSize: small ? '2rem' : '2.75rem',
-                  color: 'var(--color-accent)',
-                  lineHeight: 1,
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {num}
-              </span>
-              <span
-                style={{ fontSize: '0.8125rem', color: 'var(--color-text-body)', fontWeight: 500 }}
-              >
-                {label}
-              </span>
-            </div>
-          ))}
+          <StatRow
+            theme="garden"
+            stats={[
+              { num: '0', label: 'account managers' },
+              { num: '2', label: 'senior founders' },
+              { num: '1', label: 'team · build → growth' },
+            ]}
+          />
         </motion.div>
       </div>
     </section>

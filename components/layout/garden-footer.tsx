@@ -77,8 +77,8 @@ export function GardenFooter() {
               className="mb-8 max-w-[260px] text-sm leading-relaxed"
               style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}
             >
-              The assistant in the corner? We built it the way we&apos;d build yours — Claude, the
-              AI SDK, real guardrails. Ask it anything.
+              The assistant in the corner? We built it the way we&apos;d build yours — the AI SDK,
+              real guardrails, real evals. Ask it anything.
             </p>
             <Link
               href="/dtc"

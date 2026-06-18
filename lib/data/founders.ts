@@ -51,7 +51,7 @@ export const founders: Founder[] = [
   },
   {
     slug: 'manu',
-    name: 'Manu', // MOCK — add full last name
+    name: 'Manu Siwach',
     role: 'Co-founder, Grow',
     lane: 'grow',
     oneLiner: 'Paid acquisition operator. Trains the next generation of digital marketers.',
@@ -64,7 +64,7 @@ export const founders: Founder[] = [
       portfolio: 'https://manu.digitribe.world',
     },
     photo: '/founders/manu.svg', // MOCK — replace with real photo
-    initials: 'M',
+    initials: 'MS',
     accentColor: '#6E8060',
   },
 ]
