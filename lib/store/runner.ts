@@ -14,6 +14,8 @@ import { makeAiRunner } from './ai'
 import { acquireRunLock, setRun, getRun, rateLimit } from './kv'
 import { runEvent, sseFrame, sseDone, sseError, encodeSse } from './events'
 import { StoreErr, storeError, toErrorResponse } from './errors'
+import { sendArtifactReady } from './email'
+import { storeEnv } from './env'
 
 const DAY = 60 * 60 * 24
 
@@ -147,6 +149,17 @@ export function runProduct(req: RunInput): Response {
           ownerJti: v.payload.jti,
         }
         await setRun(runId, result)
+
+        // Email a copy (nicety — never blocks the result).
+        try {
+          await sendArtifactReady({
+            to: v.payload.email,
+            productName: product.name,
+            viewUrl: `${storeEnv().STORE_BASE_URL}/store/use/${req.token}?run=${runId}`,
+          })
+        } catch (e) {
+          console.warn('[store] artifact email failed:', e instanceof Error ? e.message : e)
+        }
 
         emit(runEvent('done', 100, 'Done.'))
         controller.enqueue(encodeSse(sseDone({ runId, artifactUrl: result.artifactUrl })))

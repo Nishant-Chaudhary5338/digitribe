@@ -14,6 +14,8 @@ import { purchases } from '../../server/store/db/schema'
 import { getProduct } from './products'
 import { mintToken, revokeToken } from './access'
 import { issueLicense, revokeLicensesForPurchase } from './license'
+import { sendReceipt } from './email'
+import { storeEnv } from './env'
 
 const DAY = 60 * 60 * 24
 const DEFAULT_RUNS = 3
@@ -50,6 +52,9 @@ export async function fulfilOrderPaid(
   const purchase = inserted[0]
   if (!purchase) return {} // duplicate webhook — already fulfilled
 
+  const base = storeEnv().STORE_BASE_URL
+  const productName = product?.name ?? o.slug
+
   if (delivery === 'download-license') {
     const licenseKey = await issueLicense({
       purchaseId: purchase.id,
@@ -57,6 +62,14 @@ export async function fulfilOrderPaid(
       email: o.email,
     })
     await kv.set(`order:${o.orderId}`, { licenseKey }, { ex: 30 * DAY })
+    await emailSafe(() =>
+      sendReceipt({
+        to: o.email,
+        productName,
+        licenseKey,
+        downloadUrl: `${base}/store/${o.slug}/download`,
+      })
+    )
     return { licenseKey }
   }
 
@@ -66,7 +79,19 @@ export async function fulfilOrderPaid(
     nowSeconds
   )
   await kv.set(`order:${o.orderId}`, { token }, { ex: 30 * DAY })
+  await emailSafe(() =>
+    sendReceipt({ to: o.email, productName, accessUrl: `${base}/store/use/${token}` })
+  )
   return { token }
+}
+
+/** Email is a nicety — never let a delivery failure break fulfilment. */
+async function emailSafe(fn: () => Promise<void>): Promise<void> {
+  try {
+    await fn()
+  } catch (e) {
+    console.warn('[store] receipt email failed:', e instanceof Error ? e.message : e)
+  }
 }
 
 /** Mark a purchase refunded and revoke its access (token or license). */
