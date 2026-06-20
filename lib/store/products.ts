@@ -268,6 +268,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/golden-dataset-generator'))
         .goldenDatasetPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Regression Guard — Segment 4 (generation; CI test file + workflow).
+  {
+    slug: 'regression-guard',
+    name: 'Regression Guard',
+    segment: 4,
+    tagline: 'A CI test file that locks your prompt’s must-hold behaviors.',
+    priceUSD: 19,
+    polarProductId: process.env['POLAR_REGRESSION_GUARD_PRODUCT_ID'] ?? 'regression-guard',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 40,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/regression-guard')).RegressionGuardInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/regression-guard')).RegressionGuardOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/regression-guard'))
+        .regressionGuardPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
