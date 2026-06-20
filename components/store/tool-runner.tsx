@@ -5,7 +5,7 @@
  * stream over fetch (POST, so not EventSource). For v1 the input is a single
  * textarea (the demo product); schema-driven inputs come with later products.
  */
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 type Phase = 'collecting' | 'validatingKey' | 'running' | 'success' | 'error'
 type Provider = 'anthropic' | 'openai' | 'google'
@@ -31,6 +31,18 @@ export function ToolRunner({ token, slug, productName, providers }: Props) {
   const [artifact, setArtifact] = useState<Record<string, unknown> | null>(null)
   const [error, setError] = useState('')
   const runIdRef = useRef('')
+
+  // Deep link from the artifact-ready email: /store/use/[token]?run=<runId>
+  // jumps straight to the finished result (review Pass-3 HIGH).
+  useEffect(() => {
+    const runId = new URLSearchParams(window.location.search).get('run')
+    if (!runId) return
+    setPhase('running')
+    setPct(100)
+    setMessage('Loading your result…')
+    void loadArtifact(runId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function checkKey() {
     if (!apiKey) return
