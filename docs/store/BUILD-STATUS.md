@@ -1,9 +1,9 @@
 # Build Status — store.digitribe
 
 > Living implementation tracker. Updated as work ships. Branch: `feat/store-foundation`.
-> Last updated: 2026-06-20. Tests: **132 green** · Review passes: **7** (findings in `REVIEW-FINDINGS.md`). Products live: **15** — Segments **1, 3, 4 complete**; **6 at 6/8**.
+> Last updated: 2026-06-20. Tests: **133 green** · Review passes: **7** (findings in `REVIEW-FINDINGS.md`). Products live: **15** — Segments **1, 3, 4 complete**; **6 at 6/8**.
 >
-> **Product-aware UI: ✅** — a generic artifact renderer (pure `toViewModel`) + schema-driven input (`primaryInputField`) make the **single-primary-field products (~12 of 15) runnable end-to-end** in the tool UI. Multi-field input forms (dtc-email-flows, regression-guard, mcp-hardening-kit) are a follow-up. Remaining products (Seg 2, 5, + 2 in Seg 6) need new infra (below).
+> **Product-aware UI: ✅** — a generic artifact renderer (pure `toViewModel`) + schema-driven **multi-field** input (`inputFields`) make **all 15 in-browser products runnable end-to-end** in the tool UI (single + multi-field). Remaining products (Seg 2, 5, + 2 in Seg 6) need new infra (below).
 
 ## Platform spine (segment-0) — ✅ COMPLETE
 
