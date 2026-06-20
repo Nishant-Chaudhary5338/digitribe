@@ -1,0 +1,228 @@
+{
+  "_note": "Locked v1 product registry seed (DECISIONS D-17). One-time prices in USD. `delivery`: 'in-browser' = run on the store; 'download-license' = downloadable local app unlocked by license key (Segment 5, DECISIONS D-13/14/15). Run setup-polar.mjs to create these as Polar products; paste the returned IDs into lib/store/products.ts.",
+  "currency": "USD",
+  "recurring": false,
+  "products": [
+    {
+      "slug": "agent-ready-kit",
+      "name": "Agent-Ready Kit",
+      "segment": 1,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Paste a URL and get the llms.txt, agents.md, JSON-LD, and MCP files that make AI agents understand your site."
+    },
+    {
+      "slug": "ai-buyer-simulator",
+      "name": "Can an AI Buy From You? Simulator",
+      "segment": 1,
+      "priceUSD": 39,
+      "delivery": "in-browser",
+      "description": "See exactly where an AI agent's buying journey breaks on your site."
+    },
+    {
+      "slug": "webmcp-generator",
+      "name": "WebMCP Endpoint Generator",
+      "segment": 1,
+      "priceUSD": 149,
+      "delivery": "in-browser",
+      "description": "Generate a deployable MCP server that lets AI agents search, cart, and check out on your site."
+    },
+    {
+      "slug": "agent-readiness-monitor",
+      "name": "Agent-Readiness Monitor",
+      "segment": 1,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "A one-time agent-readiness score for your site, with the fixes to make."
+    },
+
+    {
+      "slug": "c2pa-stamper",
+      "name": "C2PA Content Credentials Stamper",
+      "segment": 2,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "Add a signed, machine-readable AI 'nutrition label' and visible badge to an image or video."
+    },
+    {
+      "slug": "ai-compliance-audit",
+      "name": "AI-Content Compliance Audit",
+      "segment": 2,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Check whether your site and content meet EU AI Act and California AI Transparency labeling rules."
+    },
+    {
+      "slug": "disclosure-generator",
+      "name": "AI Disclosure Generator",
+      "segment": 2,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "Generate a ready-to-paste AI-disclosure page, footer badge, and content labels."
+    },
+    {
+      "slug": "bulk-watermark",
+      "name": "Bulk Watermark & Label Pipeline",
+      "segment": 2,
+      "priceUSD": 49,
+      "delivery": "in-browser",
+      "description": "Sign, badge, and manifest a whole folder of AI assets in one pass."
+    },
+
+    {
+      "slug": "scan-my-mcp",
+      "name": "Scan My MCP Server",
+      "segment": 3,
+      "priceUSD": 39,
+      "delivery": "in-browser",
+      "description": "Security scan of your MCP server — injection, tool-poisoning, over-privilege, missing auth — with fixes."
+    },
+    {
+      "slug": "mcp-hardening-kit",
+      "name": "MCP Hardening Kit",
+      "segment": 3,
+      "priceUSD": 49,
+      "delivery": "in-browser",
+      "description": "Generated auth, scope, and sanitization middleware plus a hardening checklist for your MCP server."
+    },
+    {
+      "slug": "agent-injection-suite",
+      "name": "Agent Prompt-Injection Test Suite",
+      "segment": 3,
+      "priceUSD": 39,
+      "delivery": "in-browser",
+      "description": "A generated jailbreak and injection test pack with a CI harness for your AI agent."
+    },
+    {
+      "slug": "tool-permission-auditor",
+      "name": "Tool-Permission Auditor",
+      "segment": 3,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Least-privilege analysis of your agent/MCP tool config, with minimal-scope recommendations."
+    },
+
+    {
+      "slug": "prompt-eval-suite",
+      "name": "Prompt to Eval Suite",
+      "segment": 4,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Turn a prompt into a runnable test suite and scoring harness so it never silently regresses."
+    },
+    {
+      "slug": "grade-my-agent",
+      "name": "Grade My Agent",
+      "segment": 4,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "A reliability scorecard for your agent: failure modes and prioritized hardening."
+    },
+    {
+      "slug": "golden-dataset-generator",
+      "name": "Golden-Dataset Generator",
+      "segment": 4,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "Generate a labeled test set to evaluate your agent or prompt."
+    },
+    {
+      "slug": "regression-guard",
+      "name": "Regression Guard",
+      "segment": 4,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "A CI test file that locks your prompt's must-hold behaviors."
+    },
+
+    {
+      "slug": "codebase-health-report",
+      "name": "Codebase Health & Migration Report",
+      "segment": 5,
+      "priceUSD": 49,
+      "delivery": "download-license",
+      "description": "A downloadable local app: score any React/TS repo 0-100 and get an AI migration roadmap. Your code never leaves your machine."
+    },
+    {
+      "slug": "blast-radius-analyzer",
+      "name": "Impact / Blast-Radius Analyzer",
+      "segment": 5,
+      "priceUSD": 59,
+      "delivery": "download-license",
+      "description": "A downloadable local app: see what breaks if you change any symbol in your React/TS repo."
+    },
+    {
+      "slug": "wcag-audit-report",
+      "name": "WCAG Audit Report",
+      "segment": 5,
+      "priceUSD": 29,
+      "delivery": "download-license",
+      "description": "A downloadable local app: scan any React/TS repo for accessibility issues with AI-written fixes."
+    },
+
+    {
+      "slug": "digibot-in-a-box",
+      "name": "Digibot-in-a-Box",
+      "segment": 6,
+      "priceUSD": 49,
+      "delivery": "in-browser",
+      "description": "An embeddable, conversion-tuned AI sales assistant trained on your site. Runs on your own AI key."
+    },
+    {
+      "slug": "conversion-teardown",
+      "name": "Conversion Teardown",
+      "segment": 6,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "A senior CRO teardown of any landing page, with prioritized, specific fixes."
+    },
+    {
+      "slug": "ad-message-match",
+      "name": "Ad to Landing Message-Match Audit",
+      "segment": 6,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Find exactly where your ad's promise breaks on your landing page."
+    },
+    {
+      "slug": "ad-hook-generator",
+      "name": "Ad Hook Generator",
+      "segment": 6,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "20 scroll-stopping ad hooks and angles for your product, channel-native."
+    },
+    {
+      "slug": "shopify-pdp-optimizer",
+      "name": "Shopify Product-Page Optimizer",
+      "segment": 6,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Rewritten copy and CRO fixes for any Shopify product page."
+    },
+    {
+      "slug": "saas-pricing-teardown",
+      "name": "SaaS Pricing-Page Teardown",
+      "segment": 6,
+      "priceUSD": 29,
+      "delivery": "in-browser",
+      "description": "Clarity, positioning, and packaging fixes for your SaaS pricing page."
+    },
+    {
+      "slug": "dtc-email-flows",
+      "name": "DTC Email-Flow Generator",
+      "segment": 6,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "Written welcome and abandoned-cart email sequences for your brand."
+    },
+    {
+      "slug": "positioning-generator",
+      "name": "Positioning Generator",
+      "segment": 6,
+      "priceUSD": 19,
+      "delivery": "in-browser",
+      "description": "Dual DTC and SaaS positioning angles for your product."
+    }
+  ]
+}
