@@ -33,14 +33,14 @@ Toolchain: corepack/pnpm fixed; `pnpm test:unit` + `pnpm typecheck` clean.
 
 ## Deferred — need new infrastructure (documented, not forgotten)
 
-| Item                                                                     | Blocked on                                             |
-| ------------------------------------------------------------------------ | ------------------------------------------------------ |
-| ad-message-match (Seg 6)                                                 | multimodal/vision input on the AI runner (SW-6)        |
-| digibot-in-a-box (Seg 6)                                                 | multi-tenant widget hosting + runtime key vault (S6-1) |
-| Segment 2 — Compliance (C2PA stamper, audit, disclosure, bulk-watermark) | C2PA signing micro-service + cert (S2-1/S2-2)          |
-| Segment 5 — Codebase (health/blast-radius/wcag)                          | downloadable local-app + license delivery (D-13/14/15) |
-| Product-specific artifact UIs + schema-driven input form                 | RTL/jsdom test setup (keep UI test-first)              |
-| ARK eval / golden-set                                                    | a real AI key (pre-launch eval, not CI)                |
+| Item                                                                     | Blocked on                                                              |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| ad-message-match (Seg 6)                                                 | multimodal/vision input on the AI runner (SW-6)                         |
+| digibot-in-a-box (Seg 6)                                                 | multi-tenant widget hosting + runtime key vault (S6-1)                  |
+| Segment 2 — Compliance (C2PA stamper, audit, disclosure, bulk-watermark) | C2PA signing micro-service + cert (S2-1/S2-2)                           |
+| Segment 5 — Codebase (health/blast-radius/wcag)                          | downloadable local-app + license delivery (D-13/14/15)                  |
+| Richer per-product artifact views + component tests                      | RTL/jsdom setup (generic renderer ✅ done; polish + a11y tests pending) |
+| Eval / golden-set + generated-file parse-validation (all file products)  | a real AI key for LLM judges (parse-checks doable in CI)                |
 
 ## Test coverage (well-covered)
 
