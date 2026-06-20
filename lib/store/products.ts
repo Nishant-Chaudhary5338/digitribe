@@ -339,6 +339,54 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/mcp-hardening-kit'))
         .mcpHardeningPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Agent Prompt-Injection Test Suite — Segment 3 (generation; attack corpus + harness).
+  {
+    slug: 'agent-injection-suite',
+    name: 'Agent Prompt-Injection Test Suite',
+    segment: 3,
+    tagline: 'A generated jailbreak/injection test pack + CI harness for your AI agent.',
+    priceUSD: 39,
+    polarProductId:
+      process.env['POLAR_AGENT_INJECTION_SUITE_PRODUCT_ID'] ?? 'agent-injection-suite',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 50,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/agent-injection-suite')).AgentInjectionInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/agent-injection-suite')).AgentInjectionOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/agent-injection-suite'))
+        .agentInjectionPipeline as ProductPipeline<unknown, unknown>,
+  },
+  // Tool-Permission Auditor — Segment 3 (least-privilege analysis; cheaper default model).
+  {
+    slug: 'tool-permission-auditor',
+    name: 'Tool-Permission Auditor',
+    segment: 3,
+    tagline: 'Least-privilege analysis of your agent/MCP tool config, with minimal-scope recs.',
+    priceUSD: 29,
+    polarProductId:
+      process.env['POLAR_TOOL_PERMISSION_AUDITOR_PRODUCT_ID'] ?? 'tool-permission-auditor',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-haiku-4-5' },
+    estRunSeconds: 30,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/tool-permission-auditor')).ToolPermissionInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/tool-permission-auditor')).ToolPermissionOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/tool-permission-auditor'))
+        .toolPermissionPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
