@@ -13,6 +13,8 @@ export const purchases = pgTable('purchases', {
   priceCents: integer('price_cents').notNull(),
   runsTotal: integer('runs_total').notNull().default(0),
   runsUsed: integer('runs_used').notNull().default(0),
+  /** jti of the minted access token (in-browser products) — for durable refund-revoke */
+  accessJti: text('access_jti'),
   refunded: boolean('refunded').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 })

@@ -12,7 +12,7 @@ import { kv } from '@vercel/kv'
 import { db } from '../../server/store/db/client'
 import { purchases } from '../../server/store/db/schema'
 import { getProduct } from './products'
-import { mintToken, revokeToken } from './access'
+import { mintToken, revokeToken, tokenJti } from './access'
 import { issueLicense, revokeLicensesForPurchase } from './license'
 import { sendReceipt } from './email'
 import { storeEnv } from './env'
@@ -78,6 +78,9 @@ export async function fulfilOrderPaid(
     runsTotal,
     nowSeconds
   )
+  // Persist the jti durably so refunds can revoke without relying on ephemeral KV.
+  const jti = tokenJti(token)
+  if (jti) await db().update(purchases).set({ accessJti: jti }).where(eq(purchases.id, purchase.id))
   await kv.set(`order:${o.orderId}`, { token }, { ex: 30 * DAY })
   await emailSafe(() =>
     sendReceipt({ to: o.email, productName, accessUrl: `${base}/store/use/${token}` })
@@ -106,19 +109,7 @@ export async function fulfilRefund(o: { orderId: string }): Promise<void> {
   await db().update(purchases).set({ refunded: true }).where(eq(purchases.id, purchase.id))
   await revokeLicensesForPurchase(purchase.id)
 
-  const issued = await kv.get<{ token?: string }>(`order:${o.orderId}`)
-  if (issued?.token) {
-    const dot = issued.token.indexOf('.')
-    if (dot > 0) {
-      try {
-        const payload = JSON.parse(
-          Buffer.from(issued.token.slice(0, dot), 'base64url').toString('utf8')
-        )
-        if (typeof payload?.jti === 'string') await revokeToken(payload.jti)
-      } catch {
-        /* token shape changed — nothing to revoke */
-      }
-    }
-  }
+  // Durable revoke: the jti is persisted on the purchase row (no KV TTL dependency).
+  if (purchase.accessJti) await revokeToken(purchase.accessJti)
   await kv.del(`order:${o.orderId}`)
 }

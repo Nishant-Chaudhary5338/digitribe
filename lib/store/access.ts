@@ -88,3 +88,17 @@ export function refundQuota(jti: string): Promise<number | null> {
 export function revokeToken(jti: string): Promise<void> {
   return deleteToken(jti)
 }
+
+/** Decode the jti from a token without verifying — for fulfilment/UI convenience. */
+export function tokenJti(token: string): string | null {
+  try {
+    const payloadB64 = token.split('.')[0]
+    if (!payloadB64) return null
+    const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf8')) as {
+      jti?: unknown
+    }
+    return typeof payload.jti === 'string' ? payload.jti : null
+  } catch {
+    return null
+  }
+}
