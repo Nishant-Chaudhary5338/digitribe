@@ -175,6 +175,30 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/dtc-email-flows'))
         .dtcEmailPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Shopify Product-Page Optimizer — Segment 6 (crawl-based).
+  {
+    slug: 'shopify-pdp-optimizer',
+    name: 'Shopify Product-Page Optimizer',
+    segment: 6,
+    tagline: 'Rewritten copy + CRO fixes for any Shopify product page.',
+    priceUSD: 29,
+    polarProductId:
+      process.env['POLAR_SHOPIFY_PDP_OPTIMIZER_PRODUCT_ID'] ?? 'shopify-pdp-optimizer',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 60,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/shopify-pdp-optimizer')).ShopifyPdpInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/shopify-pdp-optimizer')).ShopifyPdpOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/shopify-pdp-optimizer'))
+        .shopifyPdpPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
