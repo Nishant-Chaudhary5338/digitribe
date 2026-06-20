@@ -291,6 +291,31 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/regression-guard'))
         .regressionGuardPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Scan My MCP Server — Segment 3 flagship (analysis over a pasted config).
+  {
+    slug: 'scan-my-mcp',
+    name: 'Scan My MCP Server',
+    segment: 3,
+    tagline:
+      'Security scan of your MCP server: injection, tool-poisoning, over-privilege — with fixes.',
+    priceUSD: 39,
+    polarProductId: process.env['POLAR_SCAN_MY_MCP_PRODUCT_ID'] ?? 'scan-my-mcp',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 50,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () => (await import('../../server/store/schemas/scan-my-mcp')).ScanMcpInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/scan-my-mcp')).ScanMcpOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/scan-my-mcp')).scanMcpPipeline as ProductPipeline<
+        unknown,
+        unknown
+      >,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
