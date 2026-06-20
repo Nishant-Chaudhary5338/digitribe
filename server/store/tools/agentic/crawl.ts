@@ -105,10 +105,19 @@ export async function crawlSite(
     /* no robots.txt — fine */
   }
 
+  const headings = $('h1, h2, h3')
+    .map((_, el) => $(el).text().replace(/\s+/g, ' ').trim())
+    .get()
+    .filter(Boolean)
+    .slice(0, 30)
+
   return {
     url: url.href,
     title,
     pagesCrawled: 1,
+    headings,
+    contentExcerpt: bodyText.slice(0, 2000),
+    metaDescription: metaDesc,
     hasLlmsTxt,
     hasAgentsMd,
     jsonLdTypes: [...new Set(jsonLdTypes)],

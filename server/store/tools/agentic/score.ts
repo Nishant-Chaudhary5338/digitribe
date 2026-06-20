@@ -9,6 +9,11 @@ export interface CrawlDigest {
   url: string
   title: string
   pagesCrawled: number
+  /** Optional readable content (populated by the crawler; used by content-based
+   *  products like Conversion Teardown, ignored by the readiness scorer). */
+  headings?: string[]
+  contentExcerpt?: string
+  metaDescription?: string
   hasLlmsTxt: boolean
   hasAgentsMd: boolean
   jsonLdTypes: string[]
