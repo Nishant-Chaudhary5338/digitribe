@@ -30,7 +30,7 @@ const aiOutput = {
     title: 'X',
     summary: 's',
     pagesCrawled: 99,
-    isCommerce: false,
+    isCommerce: true,
     detectedEntities: ['X'],
   },
   overallScore: 99,
@@ -49,7 +49,7 @@ const aiOutput = {
     { path: '.well-known/mcp.json', language: 'json', contents: '{}', rationale: 'r' },
   ],
   topActions: ['a', 'b', 'c'],
-  upsell: { needsTransactionLayer: true, reason: 'no mcp' },
+  upsell: { needsTransactionLayer: false, reason: 'no mcp' },
 }
 
 describe('agent-ready-kit pipeline', () => {
@@ -70,6 +70,9 @@ describe('agent-ready-kit pipeline', () => {
     expect(desc.score).toBe(0) // overridden from the AI's 99
     expect(desc.status).toBe('missing')
     expect(out.site.pagesCrawled).toBe(1) // from the digest, not the AI's 99
+    // Digest-derived booleans override the AI too (drives the $149 upsell):
+    expect(out.site.isCommerce).toBe(false) // digest, not the AI's true
+    expect(out.upsell.needsTransactionLayer).toBe(true) // !hasWellKnownMcp, not the AI's false
     expect(events.length).toBeGreaterThan(0)
   })
 })

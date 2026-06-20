@@ -34,16 +34,19 @@ export const agentReadyPipeline: ProductPipeline<AgentReadyInput, Out> = async (
     effort: 'high',
   })
 
-  // Deterministic, honest scores override whatever the model returned.
+  // Deterministic facts override whatever the model returned: scores, grade,
+  // pages crawled, commerce detection, and the transaction-layer upsell flag
+  // (which drives the $149 WebMCP cross-sell) all come from the digest, not the AI.
   const byKey = new Map(base.dimensions.map((d) => [d.key, d]))
   return {
     ...out,
-    site: { ...out.site, pagesCrawled: digest.pagesCrawled },
+    site: { ...out.site, pagesCrawled: digest.pagesCrawled, isCommerce: digest.isCommerce },
     overallScore: base.overallScore,
     grade: gradeFor(base.overallScore),
     dimensions: out.dimensions.map((d) => {
       const b = byKey.get(d.key)
       return b ? { ...d, score: b.score, status: b.status } : d
     }),
+    upsell: { ...out.upsell, needsTransactionLayer: !digest.hasWellKnownMcp },
   }
 }
