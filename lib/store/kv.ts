@@ -11,12 +11,15 @@ export const RUN_TTL = 30 * DAY
 
 const k = {
   tok: (jti: string) => `tok:${jti}`,
+  used: (jti: string) => `tok:${jti}:u`,
   run: (runId: string) => `run:${runId}`,
   idem: (runId: string) => `idem:${runId}`,
   rl: (scope: string, id: string) => `rl:${scope}:${id}`,
 }
 
 // ── Token quota ────────────────────────────────────────────────────────────
+// Total is stored once; usage is a separate atomic counter (kv.incr/decr) so
+// concurrent runs can never double-spend (read-modify-write would).
 
 export interface TokenQuota {
   runsTotal: number
@@ -24,33 +27,35 @@ export interface TokenQuota {
 }
 
 export async function setQuota(jti: string, runsTotal: number): Promise<void> {
-  await kv.set<TokenQuota>(k.tok(jti), { runsTotal, runsUsed: 0 }, { ex: TOKEN_TTL })
+  await kv.set(k.tok(jti), { runsTotal }, { ex: TOKEN_TTL })
+  await kv.set(k.used(jti), 0, { ex: TOKEN_TTL })
 }
 
 export async function getQuota(jti: string): Promise<TokenQuota | null> {
-  return kv.get<TokenQuota>(k.tok(jti))
+  const meta = await kv.get<{ runsTotal: number }>(k.tok(jti))
+  if (!meta) return null
+  const rawUsed = (await kv.get<number>(k.used(jti))) ?? 0
+  return { runsTotal: meta.runsTotal, runsUsed: Math.min(Math.max(0, rawUsed), meta.runsTotal) }
 }
 
-/** Returns runs remaining after the decrement, or null if the token is unknown. */
+/** Atomically spend a run. Returns runs remaining, or null if the token is unknown. */
 export async function decrQuota(jti: string): Promise<number | null> {
-  const q = await kv.get<TokenQuota>(k.tok(jti))
-  if (!q) return null
-  const used = Math.min(q.runsTotal, q.runsUsed + 1)
-  await kv.set<TokenQuota>(k.tok(jti), { ...q, runsUsed: used }, { ex: TOKEN_TTL })
-  return Math.max(0, q.runsTotal - used)
+  const meta = await kv.get<{ runsTotal: number }>(k.tok(jti))
+  if (!meta) return null
+  const used = await kv.incr(k.used(jti))
+  return Math.max(0, meta.runsTotal - used)
 }
 
 /** Give a run back after a system-side failure. Returns runs remaining. */
 export async function restoreQuota(jti: string): Promise<number | null> {
-  const q = await kv.get<TokenQuota>(k.tok(jti))
-  if (!q) return null
-  const used = Math.max(0, q.runsUsed - 1)
-  await kv.set<TokenQuota>(k.tok(jti), { ...q, runsUsed: used }, { ex: TOKEN_TTL })
-  return q.runsTotal - used
+  const meta = await kv.get<{ runsTotal: number }>(k.tok(jti))
+  if (!meta) return null
+  const used = await kv.decr(k.used(jti))
+  return Math.max(0, meta.runsTotal - Math.max(0, used))
 }
 
 export async function deleteToken(jti: string): Promise<void> {
-  await kv.del(k.tok(jti))
+  await kv.del(k.tok(jti), k.used(jti))
 }
 
 // ── Run results (artifact metadata) ────────────────────────────────────────
@@ -88,8 +93,11 @@ export async function rateLimit(
   limit: number,
   windowSeconds: number
 ): Promise<RateLimitResult> {
-  const key = k.rl(scope, id)
+  // Time-bucketed key: each window is its own key, so a missed expire can't
+  // wedge the limiter — old buckets are simply abandoned (TTL cleans them up).
+  const bucket = Math.floor(Date.now() / 1000 / windowSeconds)
+  const key = `${k.rl(scope, id)}:${bucket}`
   const count = await kv.incr(key)
-  if (count === 1) await kv.expire(key, windowSeconds)
+  if (count === 1) await kv.expire(key, windowSeconds * 2)
   return { allowed: count <= limit, remaining: Math.max(0, limit - count) }
 }
