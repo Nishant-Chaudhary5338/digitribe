@@ -139,7 +139,6 @@ export function runProduct(req: RunInput): Response {
 
         emit(runEvent('persist', 95, 'Finishing up…'))
         await kv.set(`artifact:${runId}`, output, { ex: 30 * DAY })
-        await decrementQuota(v.payload.jti)
         const result: RunResult = {
           runId,
           slug: req.slug,
@@ -148,7 +147,10 @@ export function runProduct(req: RunInput): Response {
           finishedAt: Date.now(),
           ownerJti: v.payload.jti,
         }
+        // Persist the result BEFORE spending quota: if either earlier step had
+        // failed the buyer keeps the run; the quota is spent last, on full success.
         await setRun(runId, result)
+        await decrementQuota(v.payload.jti)
 
         // Email a copy (nicety — never blocks the result).
         try {
