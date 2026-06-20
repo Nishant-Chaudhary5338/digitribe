@@ -245,6 +245,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/grade-my-agent'))
         .gradeAgentPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Golden-Dataset Generator — Segment 4 (generation; downloadable dataset).
+  {
+    slug: 'golden-dataset-generator',
+    name: 'Golden-Dataset Generator',
+    segment: 4,
+    tagline: 'Generate a labeled test set to evaluate your agent or prompt.',
+    priceUSD: 19,
+    polarProductId: process.env['POLAR_GOLDEN_DATASET_PRODUCT_ID'] ?? 'golden-dataset-generator',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 45,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/golden-dataset-generator')).GoldenDatasetInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/golden-dataset-generator')).GoldenDatasetOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/golden-dataset-generator'))
+        .goldenDatasetPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
