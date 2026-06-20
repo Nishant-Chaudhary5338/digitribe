@@ -1,7 +1,7 @@
 # Build Status — store.digitribe
 
 > Living implementation tracker. Updated as work ships. Branch: `feat/store-foundation`.
-> Last updated: 2026-06-20. Tests: **107 green** · Review passes: **6** (findings in `REVIEW-FINDINGS.md`).
+> Last updated: 2026-06-20. Tests: **123 green** · Review passes: **6** (findings in `REVIEW-FINDINGS.md`). Products live: **15** — Segments **1, 3, 4 complete**; **6 at 6/8**. Remaining (Seg 2, 5, + 2 in Seg 6) all need new infra (below).
 
 ## Platform spine (segment-0) — ✅ COMPLETE
 
@@ -21,13 +21,13 @@ Toolchain: corepack/pnpm fixed; `pnpm test:unit` + `pnpm typecheck` clean.
 | dtc-email-flows          | 6       | in-browser | ✅ built+tested | schema/pipeline                  |
 | shopify-pdp-optimizer    | 6       | in-browser | ✅ built+tested | schema/pipeline                  |
 | prompt-eval-suite        | 4       | in-browser | ✅ built+tested | schema/pipeline                  |
-| grade-my-agent           | 4       | in-browser | 🚧 in progress  | —                                |
-| golden-dataset-generator | 4       | in-browser | ⬜ queued       | —                                |
-| regression-guard         | 4       | in-browser | ⬜ queued       | —                                |
-| scan-my-mcp              | 3       | in-browser | ⬜ queued       | —                                |
-| mcp-hardening-kit        | 3       | in-browser | ⬜ queued       | —                                |
-| agent-injection-suite    | 3       | in-browser | ⬜ queued       | —                                |
-| tool-permission-auditor  | 3       | in-browser | ⬜ queued       | —                                |
+| grade-my-agent           | 4       | in-browser | ✅ built+tested | schema/pipeline                  |
+| golden-dataset-generator | 4       | in-browser | ✅ built+tested | schema/pipeline                  |
+| regression-guard         | 4       | in-browser | ✅ built+tested | schema/pipeline                  |
+| scan-my-mcp              | 3       | in-browser | ✅ built+tested | schema/pipeline                  |
+| mcp-hardening-kit        | 3       | in-browser | ✅ built+tested | schema/pipeline                  |
+| agent-injection-suite    | 3       | in-browser | ✅ built+tested | schema/pipeline                  |
+| tool-permission-auditor  | 3       | in-browser | ✅ built+tested | schema/pipeline                  |
 
 ## Deferred — need new infrastructure (documented, not forgotten)
 
