@@ -102,6 +102,17 @@ describe('runProduct finalize order', () => {
     expect(h.decrementQuota).not.toHaveBeenCalled()
   })
 
+  it('on a pipeline/provider failure: emits error and never spends quota (PRD §10 #7)', async () => {
+    h.pipeline.mockRejectedValueOnce(
+      storeError('PROVIDER_TIMEOUT', 'provider timed out', { retryable: true })
+    )
+    const out = await drain(runProduct(baseReq))
+    expect(out).toContain('"phase":"error"')
+    expect(out).toContain('PROVIDER_TIMEOUT')
+    expect(h.setRun).not.toHaveBeenCalled()
+    expect(h.decrementQuota).not.toHaveBeenCalled()
+  })
+
   it('idempotent replay: a cached success re-emits done without spending quota', async () => {
     h.getRun.mockResolvedValueOnce({
       runId: 'r',

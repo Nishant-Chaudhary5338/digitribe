@@ -147,10 +147,13 @@ export function runProduct(req: RunInput): Response {
           finishedAt: Date.now(),
           ownerJti: v.payload.jti,
         }
-        // Persist the result BEFORE spending quota: if either earlier step had
-        // failed the buyer keeps the run; the quota is spent last, on full success.
+        // Persist the result BEFORE spending quota: if any earlier step (crawl,
+        // key check, pipeline) failed, quota was never touched — the buyer keeps
+        // the run. Quota is spent last, only on full success.
         await setRun(runId, result)
-        await decrementQuota(v.payload.jti)
+        const remaining = await decrementQuota(v.payload.jti)
+        if (remaining === null)
+          console.warn(`[store] quota record vanished mid-run for ${runId} (buyer not charged)`)
 
         // Email a copy (nicety — never blocks the result).
         try {
