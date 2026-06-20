@@ -52,6 +52,7 @@ function statusOf(e: unknown): number | undefined {
 
 /** Map a provider/SDK error to a StoreErr with the key redacted. */
 function mapError(e: unknown, apiKey: string): StoreErr {
+  if (e instanceof StoreErr) return e // already meaningful (e.g. resolveModel INPUT_INVALID)
   const status = statusOf(e)
   const raw = e instanceof Error ? e.message : String(e)
   const detail = redactKey(raw, apiKey)
