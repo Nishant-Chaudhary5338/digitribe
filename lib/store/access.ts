@@ -6,7 +6,15 @@
 import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto'
 import type { AccessTokenPayload } from './types'
 import { storeEnv } from './env'
-import { setQuota, getQuota, decrQuota, restoreQuota, deleteToken } from './kv'
+import {
+  setQuota,
+  getQuota,
+  decrQuota,
+  restoreQuota,
+  deleteToken,
+  markTokenRevoked,
+  isTokenRevoked,
+} from './kv'
 
 const DAY = 60 * 60 * 24
 const TOKEN_TTL_SECONDS = 30 * DAY
@@ -67,7 +75,9 @@ export async function verifyToken(token: string, nowSeconds: number): Promise<Ve
     return { ok: false, reason: 'expired' }
 
   const quota = await getQuota(payload.jti)
-  if (!quota) return { ok: false, reason: 'expired' } // KV TTL elapsed
+  if (!quota)
+    // Distinguish a deliberately-revoked token (refund) from a TTL-elapsed one.
+    return { ok: false, reason: (await isTokenRevoked(payload.jti)) ? 'invalid' : 'expired' }
   const runsRemaining = Math.max(0, quota.runsTotal - quota.runsUsed)
   if (runsRemaining <= 0) return { ok: false, reason: 'exhausted' }
 
@@ -84,9 +94,10 @@ export function refundQuota(jti: string): Promise<number | null> {
   return restoreQuota(jti)
 }
 
-/** Revoke a token (e.g. on refund). */
-export function revokeToken(jti: string): Promise<void> {
-  return deleteToken(jti)
+/** Revoke a token (e.g. on refund) and tombstone it so verify reports `invalid`. */
+export async function revokeToken(jti: string): Promise<void> {
+  await deleteToken(jti)
+  await markTokenRevoked(jti)
 }
 
 /** Decode the jti from a token without verifying — for fulfilment/UI convenience. */

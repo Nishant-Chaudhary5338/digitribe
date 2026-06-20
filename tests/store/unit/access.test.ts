@@ -3,7 +3,13 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 vi.mock('@vercel/kv', async () => ({ kv: (await import('../helpers/mock-vercel-kv')).kv }))
 
 import { __resetKv } from '../helpers/mock-vercel-kv'
-import { mintToken, verifyToken, decrementQuota, tokenJti } from '../../../lib/store/access'
+import {
+  mintToken,
+  verifyToken,
+  decrementQuota,
+  tokenJti,
+  revokeToken,
+} from '../../../lib/store/access'
 
 const NOW = 1_700_000_000
 const fields = { purchaseId: 'p1', slug: 'hello-store', email: 'a@b.co' }
@@ -41,6 +47,12 @@ describe('access tokens', () => {
     const token = await mintToken(fields, 1, NOW)
     await decrementQuota(jtiOf(token))
     expect(await verifyToken(token, NOW + 10)).toEqual({ ok: false, reason: 'exhausted' })
+  })
+
+  it('reports invalid (not expired) for a revoked token', async () => {
+    const token = await mintToken(fields, 1, NOW)
+    await revokeToken(jtiOf(token))
+    expect(await verifyToken(token, NOW + 10)).toEqual({ ok: false, reason: 'invalid' })
   })
 
   it('tokenJti decodes the jti, and returns null for garbage', async () => {

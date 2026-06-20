@@ -58,6 +58,15 @@ export async function deleteToken(jti: string): Promise<void> {
   await kv.del(k.tok(jti), k.used(jti))
 }
 
+/** Tombstone so a revoked token reads as `invalid`, not `expired` (TTL elapsed). */
+export async function markTokenRevoked(jti: string): Promise<void> {
+  await kv.set(`tok:${jti}:rev`, 1, { ex: TOKEN_TTL })
+}
+
+export async function isTokenRevoked(jti: string): Promise<boolean> {
+  return (await kv.get(`tok:${jti}:rev`)) != null
+}
+
 // ── Run results (artifact metadata) ────────────────────────────────────────
 
 export async function setRun(runId: string, result: RunResult): Promise<void> {
