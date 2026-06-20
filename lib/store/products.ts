@@ -81,6 +81,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/conversion-teardown'))
         .conversionTeardownPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Ad Hook Generator — Segment 6 (pure generation, no crawl; top-of-funnel tripwire).
+  {
+    slug: 'ad-hook-generator',
+    name: 'Ad Hook Generator',
+    segment: 6,
+    tagline: '20 scroll-stopping ad hooks for your product, channel-native.',
+    priceUSD: 19,
+    polarProductId: process.env['POLAR_AD_HOOK_GENERATOR_PRODUCT_ID'] ?? 'ad-hook-generator',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 30,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/ad-hook-generator')).AdHookInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/ad-hook-generator')).AdHookOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/ad-hook-generator'))
+        .adHookPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
