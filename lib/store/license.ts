@@ -45,6 +45,31 @@ export type ValidateResult =
   | { valid: false; reason: 'invalid' | 'revoked' | 'exhausted' }
 
 /** Validate + activate a license on a device (idempotent per device). */
+export type ActivationDecision =
+  | { allow: true; isNew: boolean; activationsRemaining: number }
+  | { allow: false; reason: 'revoked' | 'exhausted' }
+
+/** Pure activation decision (no DB) — the testable core of validateLicense. */
+export function decideActivation(
+  lic: { maxActivations: number; revoked: boolean },
+  deviceAlreadyActivated: boolean,
+  currentUsedCount: number
+): ActivationDecision {
+  if (lic.revoked) return { allow: false, reason: 'revoked' }
+  if (deviceAlreadyActivated)
+    return {
+      allow: true,
+      isNew: false,
+      activationsRemaining: Math.max(0, lic.maxActivations - currentUsedCount),
+    }
+  if (currentUsedCount >= lic.maxActivations) return { allow: false, reason: 'exhausted' }
+  return {
+    allow: true,
+    isNew: true,
+    activationsRemaining: Math.max(0, lic.maxActivations - (currentUsedCount + 1)),
+  }
+}
+
 export async function validateLicense(
   rawKey: string,
   deviceId: string,
@@ -53,21 +78,18 @@ export async function validateLicense(
   const keyHash = hashLicenseKey(rawKey)
   const [lic] = await db().select().from(licenses).where(eq(licenses.keyHash, keyHash)).limit(1)
   if (!lic || lic.productSlug !== slug) return { valid: false, reason: 'invalid' }
-  if (lic.revoked) return { valid: false, reason: 'revoked' }
 
   const existing = await db()
     .select()
     .from(activations)
     .where(and(eq(activations.keyHash, keyHash), eq(activations.deviceId, deviceId)))
     .limit(1)
-
   const used = await db().select().from(activations).where(eq(activations.keyHash, keyHash))
-  if (existing.length === 0) {
-    if (used.length >= lic.maxActivations) return { valid: false, reason: 'exhausted' }
-    await db().insert(activations).values({ keyHash, deviceId })
-  }
-  const total = existing.length === 0 ? used.length + 1 : used.length
-  return { valid: true, activationsRemaining: Math.max(0, lic.maxActivations - total) }
+
+  const decision = decideActivation(lic, existing.length > 0, used.length)
+  if (!decision.allow) return { valid: false, reason: decision.reason }
+  if (decision.isNew) await db().insert(activations).values({ keyHash, deviceId })
+  return { valid: true, activationsRemaining: decision.activationsRemaining }
 }
 
 /** Revoke all licenses for a purchase (on refund). */
