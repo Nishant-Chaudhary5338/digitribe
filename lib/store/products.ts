@@ -35,7 +35,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
         unknown
       >,
   },
-  // Real products (Agent-Ready Kit first) append here.
+  // Agent-Ready Kit — first real product (Segment 1).
+  {
+    slug: 'agent-ready-kit',
+    name: 'Agent-Ready Kit',
+    segment: 1,
+    tagline: 'Paste a URL — get the llms.txt, agents.md, JSON-LD & MCP files AI agents need.',
+    priceUSD: 29,
+    polarProductId: process.env['POLAR_AGENT_READY_KIT_PRODUCT_ID'] ?? 'agent-ready-kit',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 75,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/agent-ready-kit')).AgentReadyInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/agent-ready-kit')).AgentReadyOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/agent-ready-kit'))
+        .agentReadyPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
