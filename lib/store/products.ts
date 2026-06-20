@@ -58,6 +58,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/agent-ready-kit'))
         .agentReadyPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Conversion Teardown — Segment 6 (reuses the crawl spine; monetizes the free /audit).
+  {
+    slug: 'conversion-teardown',
+    name: 'Conversion Teardown',
+    segment: 6,
+    tagline: 'A senior CRO teardown of any landing page — prioritized, specific fixes.',
+    priceUSD: 29,
+    polarProductId: process.env['POLAR_CONVERSION_TEARDOWN_PRODUCT_ID'] ?? 'conversion-teardown',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 60,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/conversion-teardown')).ConversionTeardownInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/conversion-teardown')).ConversionTeardownOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/conversion-teardown'))
+        .conversionTeardownPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
