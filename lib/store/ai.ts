@@ -16,14 +16,21 @@ import { redactKey } from './byok'
 
 /** Fallback model per provider when a product doesn't pass an explicit one.
  *  Products SHOULD pass `model` (from ProductDef.defaultModel); these are best-effort. */
-const DEFAULT_MODEL: Record<AiProvider, string> = {
+/** Only Anthropic has a verified default. We never hardcode possibly-stale
+ *  OpenAI/Google model ids — products MUST pass an explicit model for those. */
+const DEFAULT_MODEL: Partial<Record<AiProvider, string>> = {
   anthropic: 'claude-opus-4-8',
-  openai: 'gpt-4o',
-  google: 'gemini-1.5-pro',
 }
 
 function resolveModel(provider: AiProvider, apiKey: string, modelId?: string): LanguageModel {
   const id = modelId ?? DEFAULT_MODEL[provider]
+  if (!id)
+    throw new StoreErr({
+      code: 'INPUT_INVALID',
+      userMessage: `Choose a ${provider} model to use.`,
+      retryable: false,
+      quotaSpent: false,
+    })
   switch (provider) {
     case 'anthropic':
       return createAnthropic({ apiKey })(id)
@@ -107,25 +114,37 @@ export function makeAiRunner(provider: AiProvider, apiKey: string): AiRunner {
       }
     },
 
-    async ping() {
+    async ping(model) {
+      // Throws a mapped StoreErr on failure (KEY_INVALID vs PROVIDER_TIMEOUT vs …)
+      // so callers can distinguish an invalid key from a transient provider error.
       try {
         await generateText({
-          model: resolveModel(provider, apiKey),
+          model: resolveModel(provider, apiKey, model),
           prompt: 'ping',
           maxOutputTokens: 1,
         })
-        return true
       } catch (e) {
-        // Auth failures → not valid; other failures also can't confirm validity.
-        const status = statusOf(e)
-        if (status === 401 || status === 403) return false
-        return false
+        throw mapError(e, apiKey)
       }
     },
   }
 }
 
 /** Pre-charge key validation (contracts §5). Used by /key-check and the runner. */
-export function validateKey(provider: AiProvider, apiKey: string): Promise<boolean> {
-  return makeAiRunner(provider, apiKey).ping()
+export async function validateKey(
+  provider: AiProvider,
+  apiKey: string,
+  model?: string
+): Promise<boolean> {
+  try {
+    await makeAiRunner(provider, apiKey).ping(model)
+    return true
+  } catch (e) {
+    if (
+      e instanceof StoreErr &&
+      (e.payload.code === 'KEY_INVALID' || e.payload.code === 'KEY_REFUSED')
+    )
+      return false
+    throw e // surface PROVIDER_TIMEOUT / PROVIDER_ERROR to the caller
+  }
 }

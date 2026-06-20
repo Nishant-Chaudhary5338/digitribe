@@ -152,6 +152,7 @@ export interface AiRunner {
     onPartial: (p: Partial<T>) => void
   }): Promise<T>
 
-  /** 1-token liveness ping used by key-check + pre-run validation. */
-  ping(): Promise<boolean>
+  /** 1-token liveness check. Resolves if the key works; throws a mapped StoreErr
+   *  (KEY_INVALID / PROVIDER_TIMEOUT / …) otherwise, so callers can distinguish. */
+  ping(model?: string): Promise<void>
 }
