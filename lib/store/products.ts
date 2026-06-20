@@ -152,6 +152,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/positioning-generator'))
         .positioningPipeline as ProductPipeline<unknown, unknown>,
   },
+  // DTC Email-Flow Generator — Segment 6 (pure generation).
+  {
+    slug: 'dtc-email-flows',
+    name: 'DTC Email-Flow Generator',
+    segment: 6,
+    tagline: 'Written welcome + abandoned-cart email sequences for your brand.',
+    priceUSD: 19,
+    polarProductId: process.env['POLAR_DTC_EMAIL_FLOWS_PRODUCT_ID'] ?? 'dtc-email-flows',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 40,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/dtc-email-flows')).DtcEmailInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/dtc-email-flows')).DtcEmailOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/dtc-email-flows'))
+        .dtcEmailPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
