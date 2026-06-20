@@ -7,11 +7,35 @@
  *
  * Pricing note: `priceUSD` is DISPLAY ONLY — always charge against `polarProductId`.
  */
-import type { ProductDef } from './types'
+import type { ProductDef, ProductPipeline } from './types'
 
 export const PRODUCT_REGISTRY: ProductDef[] = [
-  // Products are appended here as each is built (Agent-Ready Kit first).
-  // The demo "hello-store" product (segment-0 S12) is added when wiring the spine end-to-end.
+  // Demo product — the spine's end-to-end acceptance test (segment-0 S12).
+  {
+    slug: 'hello-store',
+    name: 'Hello Store',
+    segment: 1,
+    tagline: 'Paste text, get it restyled — the demo that proves the loop.',
+    priceUSD: 0,
+    polarProductId: process.env['POLAR_HELLO_STORE_PRODUCT_ID'] ?? 'demo',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 15,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/hello-store')).HelloStoreInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/hello-store')).HelloStoreOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/hello-store')).helloStorePipeline as ProductPipeline<
+        unknown,
+        unknown
+      >,
+  },
+  // Real products (Agent-Ready Kit first) append here.
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
