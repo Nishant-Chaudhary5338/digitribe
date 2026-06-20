@@ -316,6 +316,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
         unknown
       >,
   },
+  // MCP Hardening Kit — Segment 3 (generation; middleware files).
+  {
+    slug: 'mcp-hardening-kit',
+    name: 'MCP Hardening Kit',
+    segment: 3,
+    tagline: 'Generated auth, scope & sanitization middleware + a hardening checklist.',
+    priceUSD: 49,
+    polarProductId: process.env['POLAR_MCP_HARDENING_KIT_PRODUCT_ID'] ?? 'mcp-hardening-kit',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 50,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/mcp-hardening-kit')).McpHardeningInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/mcp-hardening-kit')).McpHardeningOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/mcp-hardening-kit'))
+        .mcpHardeningPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
