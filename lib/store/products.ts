@@ -222,6 +222,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/prompt-eval-suite'))
         .promptEvalPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Grade My Agent — Segment 4 (generation; reliability scorecard).
+  {
+    slug: 'grade-my-agent',
+    name: 'Grade My Agent',
+    segment: 4,
+    tagline: 'A reliability scorecard for your agent: failure modes + prioritized hardening.',
+    priceUSD: 29,
+    polarProductId: process.env['POLAR_GRADE_MY_AGENT_PRODUCT_ID'] ?? 'grade-my-agent',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 40,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/grade-my-agent')).GradeAgentInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/grade-my-agent')).GradeAgentOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/grade-my-agent'))
+        .gradeAgentPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
