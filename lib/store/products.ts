@@ -199,6 +199,29 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/shopify-pdp-optimizer'))
         .shopifyPdpPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Prompt → Eval Suite — Segment 4 (generation; produces downloadable files).
+  {
+    slug: 'prompt-eval-suite',
+    name: 'Prompt → Eval Suite',
+    segment: 4,
+    tagline: 'Turn a prompt into a runnable eval suite so it never silently regresses.',
+    priceUSD: 29,
+    polarProductId: process.env['POLAR_PROMPT_EVAL_SUITE_PRODUCT_ID'] ?? 'prompt-eval-suite',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 45,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/prompt-eval-suite')).PromptEvalInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/prompt-eval-suite')).PromptEvalOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/prompt-eval-suite'))
+        .promptEvalPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
