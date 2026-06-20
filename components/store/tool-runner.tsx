@@ -17,7 +17,7 @@ interface Props {
   slug: string
   productName: string
   providers: Provider[]
-  inputField: InputField
+  fields: InputField[]
 }
 
 const surface = { background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }
@@ -30,9 +30,10 @@ function statusColor(status?: string): string {
   return 'var(--color-text-muted)'
 }
 
-export function ToolRunner({ token, slug, productName, providers, inputField }: Props) {
+export function ToolRunner({ token, slug, productName, providers, fields }: Props) {
   const [phase, setPhase] = useState<Phase>('collecting')
-  const [inputValue, setInputValue] = useState('')
+  const [inputs, setInputs] = useState<Record<string, string>>({})
+  const setField = (key: string, value: string) => setInputs((s) => ({ ...s, [key]: value }))
   const [provider, setProvider] = useState<Provider>(providers[0] ?? 'anthropic')
   const [apiKey, setApiKey] = useState('')
   const [keyState, setKeyState] = useState<'idle' | 'checking' | 'ok' | 'bad'>('idle')
@@ -86,7 +87,7 @@ export function ToolRunner({ token, slug, productName, providers, inputField }: 
           token,
           byokKey: apiKey,
           provider,
-          input: { [inputField.key]: inputValue },
+          input: buildInput(),
           runId: runIdRef.current,
         }),
       })
@@ -146,7 +147,17 @@ export function ToolRunner({ token, slug, productName, providers, inputField }: 
     setPhase('error')
   }
 
-  const canRun = inputValue.trim().length > 0 && keyState === 'ok' && phase === 'collecting'
+  function buildInput(): Record<string, string> {
+    const out: Record<string, string> = {}
+    for (const f of fields) {
+      const v = inputs[f.key]?.trim()
+      if (v) out[f.key] = v
+    }
+    return out
+  }
+
+  const requiredFilled = fields.every((f) => !f.required || (inputs[f.key]?.trim().length ?? 0) > 0)
+  const canRun = requiredFilled && keyState === 'ok' && phase === 'collecting'
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-8">
@@ -161,36 +172,41 @@ export function ToolRunner({ token, slug, productName, providers, inputField }: 
 
       {(phase === 'collecting' || phase === 'validatingKey') && (
         <div className="space-y-4 rounded-xl border p-4" style={surface}>
-          <label className="block">
-            <span className="text-sm" style={{ color: 'var(--color-text-body)' }}>
-              {inputField.label}
-            </span>
-            {inputField.type === 'url' ? (
-              <input
-                type="url"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className="mt-1 h-9 w-full rounded-md border px-3 text-sm outline-none"
-                style={{
-                  borderColor: 'var(--color-border)',
-                  background: 'var(--color-bg-card-alt)',
-                }}
-                placeholder="https://…"
-              />
-            ) : (
-              <textarea
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                rows={5}
-                className="mt-1 w-full rounded-md border p-3 text-sm outline-none"
-                style={{
-                  borderColor: 'var(--color-border)',
-                  background: 'var(--color-bg-card-alt)',
-                }}
-                placeholder={`Paste your ${inputField.label.toLowerCase()}…`}
-              />
-            )}
-          </label>
+          {fields.map((field) => (
+            <label key={field.key} className="block">
+              <span className="text-sm" style={{ color: 'var(--color-text-body)' }}>
+                {field.label}
+                {!field.required && (
+                  <span style={{ color: 'var(--color-text-muted)' }}> (optional)</span>
+                )}
+              </span>
+              {field.type === 'url' ? (
+                <input
+                  type="url"
+                  value={inputs[field.key] ?? ''}
+                  onChange={(e) => setField(field.key, e.target.value)}
+                  className="mt-1 h-9 w-full rounded-md border px-3 text-sm outline-none"
+                  style={{
+                    borderColor: 'var(--color-border)',
+                    background: 'var(--color-bg-card-alt)',
+                  }}
+                  placeholder="https://…"
+                />
+              ) : (
+                <textarea
+                  value={inputs[field.key] ?? ''}
+                  onChange={(e) => setField(field.key, e.target.value)}
+                  rows={fields.length > 2 ? 3 : 5}
+                  className="mt-1 w-full rounded-md border p-3 text-sm outline-none"
+                  style={{
+                    borderColor: 'var(--color-border)',
+                    background: 'var(--color-bg-card-alt)',
+                  }}
+                  placeholder={`Your ${field.label.toLowerCase()}…`}
+                />
+              )}
+            </label>
+          ))}
 
           <fieldset className="space-y-2">
             <span className="text-sm" style={{ color: 'var(--color-text-body)' }}>
