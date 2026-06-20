@@ -6,6 +6,7 @@
  * textarea (the demo product); schema-driven inputs come with later products.
  */
 import { useState, useRef, useEffect } from 'react'
+import { toViewModel } from '../../lib/store/artifact-view-model'
 
 type Phase = 'collecting' | 'validatingKey' | 'running' | 'success' | 'error'
 type Provider = 'anthropic' | 'openai' | 'google'
@@ -19,6 +20,13 @@ interface Props {
 
 const surface = { background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }
 const accent = { background: 'var(--color-accent)', color: 'var(--color-text-on-inverse)' }
+
+function statusColor(status?: string): string {
+  if (status === 'good' || status === 'strong') return 'var(--color-success)'
+  if (status === 'partial' || status === 'okay') return 'var(--color-warning)'
+  if (status === 'missing' || status === 'weak') return 'var(--color-error)'
+  return 'var(--color-text-muted)'
+}
 
 export function ToolRunner({ token, slug, productName, providers }: Props) {
   const [phase, setPhase] = useState<Phase>('collecting')
@@ -244,27 +252,145 @@ export function ToolRunner({ token, slug, productName, providers }: Props) {
 
       {phase === 'success' && artifact && (
         <div className="space-y-4 rounded-xl border p-6" style={surface}>
-          <p
-            className="text-xs tracking-wider uppercase"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            {String(artifact.tone ?? '')} · {String(artifact.wordCount ?? '')} words
-          </p>
-          <p className="text-lg" style={{ color: 'var(--color-text-primary)' }}>
-            {String(artifact.restyled ?? '')}
-          </p>
-          <details className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-            <summary className="cursor-pointer">Raw result</summary>
-            <pre
-              className="mt-2 overflow-auto rounded-md p-3"
-              style={{
-                background: 'var(--color-bg-inverse)',
-                color: 'var(--color-text-on-inverse)',
-              }}
-            >
-              {JSON.stringify(artifact, null, 2)}
-            </pre>
-          </details>
+          {(() => {
+            const vm = toViewModel(artifact)
+            return (
+              <>
+                {(vm.score !== undefined || vm.grade) && (
+                  <div className="flex items-baseline gap-3">
+                    {vm.grade && (
+                      <span
+                        className="text-3xl font-semibold"
+                        style={{
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'Manrope, sans-serif',
+                        }}
+                      >
+                        {vm.grade}
+                      </span>
+                    )}
+                    {vm.score !== undefined && (
+                      <span className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                        {vm.score}/100
+                      </span>
+                    )}
+                  </div>
+                )}
+                {vm.headline && (
+                  <p className="text-sm" style={{ color: 'var(--color-text-body)' }}>
+                    {vm.headline}
+                  </p>
+                )}
+
+                {vm.dimensions.length > 0 && (
+                  <div className="space-y-2">
+                    {vm.dimensions.map((d) => (
+                      <div
+                        key={d.key}
+                        className="rounded-md border p-3"
+                        style={{ borderColor: 'var(--color-border)' }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span
+                            className="text-sm font-medium"
+                            style={{ color: 'var(--color-text-primary)' }}
+                          >
+                            {d.label ?? d.key}
+                          </span>
+                          <span className="text-xs" style={{ color: statusColor(d.status) }}>
+                            {d.status ?? ''}
+                            {d.score !== undefined ? ` · ${d.score}` : ''}
+                          </span>
+                        </div>
+                        {d.findings && d.findings.length > 0 && (
+                          <ul
+                            className="mt-1 list-disc pl-4 text-xs"
+                            style={{ color: 'var(--color-text-body)' }}
+                          >
+                            {d.findings.slice(0, 5).map((f, i) => (
+                              <li key={i}>{f}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {vm.lists.map((list) => (
+                  <div key={list.title}>
+                    <p
+                      className="text-xs tracking-wider uppercase"
+                      style={{ color: 'var(--color-text-muted)' }}
+                    >
+                      {list.title}
+                    </p>
+                    <ul
+                      className="mt-1 list-disc pl-4 text-sm"
+                      style={{ color: 'var(--color-text-body)' }}
+                    >
+                      {list.items.map((it, i) => (
+                        <li key={i}>{it}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+
+                {vm.files.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <p
+                        className="text-xs tracking-wider uppercase"
+                        style={{ color: 'var(--color-text-muted)' }}
+                      >
+                        Generated files ({vm.files.length})
+                      </p>
+                      <a
+                        href={`/api/store/artifact/${runIdRef.current}?fmt=zip&token=${encodeURIComponent(token)}`}
+                        className="inline-flex h-8 items-center rounded-md px-3 text-sm font-semibold"
+                        style={accent}
+                      >
+                        Download ZIP
+                      </a>
+                    </div>
+                    {vm.files.map((f) => (
+                      <details
+                        key={f.path}
+                        className="rounded-md border"
+                        style={{ borderColor: 'var(--color-border)' }}
+                      >
+                        <summary
+                          className="cursor-pointer px-3 py-2 font-mono text-sm"
+                          style={{ color: 'var(--color-text-primary)' }}
+                        >
+                          {f.path}
+                        </summary>
+                        <pre
+                          className="overflow-auto px-3 pb-3 text-xs"
+                          style={{ color: 'var(--color-text-body)' }}
+                        >
+                          {f.contents}
+                        </pre>
+                      </details>
+                    ))}
+                  </div>
+                )}
+
+                <details className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                  <summary className="cursor-pointer">Raw result</summary>
+                  <pre
+                    className="mt-2 overflow-auto rounded-md p-3"
+                    style={{
+                      background: 'var(--color-bg-inverse)',
+                      color: 'var(--color-text-on-inverse)',
+                    }}
+                  >
+                    {JSON.stringify(artifact, null, 2)}
+                  </pre>
+                </details>
+              </>
+            )
+          })()}
           <button
             onClick={() => {
               setPhase('collecting')
