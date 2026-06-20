@@ -104,6 +104,30 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/ad-hook-generator'))
         .adHookPipeline as ProductPipeline<unknown, unknown>,
   },
+  // SaaS Pricing Teardown — Segment 6 (crawl-based).
+  {
+    slug: 'saas-pricing-teardown',
+    name: 'SaaS Pricing-Page Teardown',
+    segment: 6,
+    tagline: 'Clarity, positioning, anchoring & packaging fixes for your pricing page.',
+    priceUSD: 29,
+    polarProductId:
+      process.env['POLAR_SAAS_PRICING_TEARDOWN_PRODUCT_ID'] ?? 'saas-pricing-teardown',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 60,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/saas-pricing-teardown')).SaasPricingInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/saas-pricing-teardown')).SaasPricingOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/saas-pricing-teardown'))
+        .saasPricingPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
