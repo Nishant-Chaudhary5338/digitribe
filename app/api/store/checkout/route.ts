@@ -6,6 +6,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 import { getProduct } from '../../../../lib/store/products'
 import { createCheckout } from '../../../../lib/store/polar'
+import { rateLimit } from '../../../../lib/store/kv'
 import { storeError, toErrorResponse } from '../../../../lib/store/errors'
 
 const Body = z.object({
@@ -15,6 +16,11 @@ const Body = z.object({
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anon'
+    const rl = await rateLimit('checkout', ip, 20, 60)
+    if (!rl.allowed)
+      throw storeError('RATE_LIMITED', 'Too many requests — wait a moment.', { retryable: true })
+
     const parsed = Body.safeParse(await req.json())
     if (!parsed.success) throw storeError('INPUT_INVALID', 'Missing or invalid product.')
 

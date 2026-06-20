@@ -25,7 +25,8 @@ export async function POST(
       const { status, body } = toErrorResponse(storeError('INPUT_INVALID', 'Invalid run request.'))
       return NextResponse.json(body, { status })
     }
-    return runProduct({ slug: product, ...parsed.data })
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anon'
+    return runProduct({ slug: product, ip, ...parsed.data })
   } catch (e) {
     const { status, body } = toErrorResponse(e)
     return NextResponse.json(body, { status })

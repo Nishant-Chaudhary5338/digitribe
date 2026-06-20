@@ -99,6 +99,8 @@ export interface RunResult {
   status: 'success' | 'error'
   artifactUrl?: string
   finishedAt: number
+  /** jti of the access token that produced this run — gates artifact access */
+  ownerJti: string
 }
 
 // ── Licensing (Segment 5 downloadable apps) ────────────────────────────────

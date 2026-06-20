@@ -11,7 +11,7 @@ import type { AiProvider, RunEvent, RunResult } from './types'
 import { getProduct } from './products'
 import { verifyToken, decrementQuota } from './access'
 import { makeAiRunner } from './ai'
-import { acquireRunLock, setRun, rateLimit } from './kv'
+import { acquireRunLock, setRun, getRun, rateLimit } from './kv'
 import { runEvent, sseFrame, sseDone, sseError, encodeSse } from './events'
 import { StoreErr, storeError, toErrorResponse } from './errors'
 
@@ -24,6 +24,8 @@ export interface RunInput {
   provider: AiProvider
   input: unknown
   runId?: string
+  /** caller IP for per-IP rate limiting (contracts §10) */
+  ip: string
 }
 
 export function runProduct(req: RunInput): Response {
@@ -66,8 +68,9 @@ export function runProduct(req: RunInput): Response {
           return fail(map[v.reason])
         }
 
-        const rl = await rateLimit('run', v.payload.jti, 10, 60)
-        if (!rl.allowed)
+        const tokenRl = await rateLimit('run', v.payload.jti, 10, 60)
+        const ipRl = await rateLimit('run-ip', req.ip, 30, 60)
+        if (!tokenRl.allowed || !ipRl.allowed)
           return fail(
             storeError('RATE_LIMITED', 'Too many requests just now — give it a few seconds.', {
               retryable: true,
@@ -75,10 +78,21 @@ export function runProduct(req: RunInput): Response {
           )
 
         const runId = req.runId ?? randomUUID()
+
+        // Idempotency: a completed run replays its cached result; never re-charges (contracts §6).
+        const cached = await getRun(runId)
+        if (cached?.status === 'success') {
+          emit(runEvent('done', 100, 'Done.'))
+          controller.enqueue(encodeSse(sseDone({ runId, artifactUrl: cached.artifactUrl })))
+          controller.close()
+          return
+        }
         const gotLock = await acquireRunLock(runId, product.estRunSeconds * 3)
         if (!gotLock)
           return fail(
-            storeError('RATE_LIMITED', 'A run is already in progress.', { retryable: true })
+            storeError('RATE_LIMITED', 'A run is already in progress for this request.', {
+              retryable: true,
+            })
           )
 
         emit(runEvent('validate', 8, 'Checking your input…'))
@@ -130,6 +144,7 @@ export function runProduct(req: RunInput): Response {
           status: 'success',
           artifactUrl: `/api/store/artifact/${runId}`,
           finishedAt: Date.now(),
+          ownerJti: v.payload.jti,
         }
         await setRun(runId, result)
 
