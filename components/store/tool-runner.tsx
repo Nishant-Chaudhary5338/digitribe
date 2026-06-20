@@ -7,6 +7,7 @@
  */
 import { useState, useRef, useEffect } from 'react'
 import { toViewModel } from '../../lib/store/artifact-view-model'
+import type { InputField } from '../../lib/store/input-field'
 
 type Phase = 'collecting' | 'validatingKey' | 'running' | 'success' | 'error'
 type Provider = 'anthropic' | 'openai' | 'google'
@@ -16,6 +17,7 @@ interface Props {
   slug: string
   productName: string
   providers: Provider[]
+  inputField: InputField
 }
 
 const surface = { background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }
@@ -28,9 +30,9 @@ function statusColor(status?: string): string {
   return 'var(--color-text-muted)'
 }
 
-export function ToolRunner({ token, slug, productName, providers }: Props) {
+export function ToolRunner({ token, slug, productName, providers, inputField }: Props) {
   const [phase, setPhase] = useState<Phase>('collecting')
-  const [text, setText] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [provider, setProvider] = useState<Provider>(providers[0] ?? 'anthropic')
   const [apiKey, setApiKey] = useState('')
   const [keyState, setKeyState] = useState<'idle' | 'checking' | 'ok' | 'bad'>('idle')
@@ -84,7 +86,7 @@ export function ToolRunner({ token, slug, productName, providers }: Props) {
           token,
           byokKey: apiKey,
           provider,
-          input: { text },
+          input: { [inputField.key]: inputValue },
           runId: runIdRef.current,
         }),
       })
@@ -144,7 +146,7 @@ export function ToolRunner({ token, slug, productName, providers }: Props) {
     setPhase('error')
   }
 
-  const canRun = text.trim().length > 0 && keyState === 'ok' && phase === 'collecting'
+  const canRun = inputValue.trim().length > 0 && keyState === 'ok' && phase === 'collecting'
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-8">
@@ -161,17 +163,33 @@ export function ToolRunner({ token, slug, productName, providers }: Props) {
         <div className="space-y-4 rounded-xl border p-4" style={surface}>
           <label className="block">
             <span className="text-sm" style={{ color: 'var(--color-text-body)' }}>
-              Your text
+              {inputField.label}
             </span>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              rows={4}
-              maxLength={500}
-              className="mt-1 w-full rounded-md border p-3 text-sm outline-none"
-              style={{ borderColor: 'var(--color-border)', background: 'var(--color-bg-card-alt)' }}
-              placeholder="Paste up to 500 characters…"
-            />
+            {inputField.type === 'url' ? (
+              <input
+                type="url"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                className="mt-1 h-9 w-full rounded-md border px-3 text-sm outline-none"
+                style={{
+                  borderColor: 'var(--color-border)',
+                  background: 'var(--color-bg-card-alt)',
+                }}
+                placeholder="https://…"
+              />
+            ) : (
+              <textarea
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                rows={5}
+                className="mt-1 w-full rounded-md border p-3 text-sm outline-none"
+                style={{
+                  borderColor: 'var(--color-border)',
+                  background: 'var(--color-bg-card-alt)',
+                }}
+                placeholder={`Paste your ${inputField.label.toLowerCase()}…`}
+              />
+            )}
           </label>
 
           <fieldset className="space-y-2">

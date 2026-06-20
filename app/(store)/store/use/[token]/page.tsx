@@ -3,6 +3,7 @@
  * product slug; the /run, /key-check, /artifact routes enforce all security.
  */
 import { getProduct } from '../../../../../lib/store/products'
+import { primaryInputField } from '../../../../../lib/store/input-field'
 import { ToolRunner } from '../../../../../components/store/tool-runner'
 
 function slugFromToken(token: string): string | null {
@@ -22,15 +23,17 @@ export default async function ToolPage({ params }: { params: Promise<{ token: st
   const { token } = await params
   const slug = slugFromToken(token)
   const product = slug ? getProduct(slug) : undefined
+  const inputField = product ? primaryInputField(await product.inputSchema()) : null
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--color-bg-page)' }}>
-      {product ? (
+      {product && inputField ? (
         <ToolRunner
           token={token}
           slug={product.slug}
           productName={product.name}
           providers={product.byokProviders}
+          inputField={inputField}
         />
       ) : (
         <div
