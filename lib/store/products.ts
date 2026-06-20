@@ -128,6 +128,30 @@ export const PRODUCT_REGISTRY: ProductDef[] = [
       (await import('../../server/store/tools/saas-pricing-teardown'))
         .saasPricingPipeline as ProductPipeline<unknown, unknown>,
   },
+  // Positioning Generator — Segment 6 (pure generation, dual DTC+SaaS).
+  {
+    slug: 'positioning-generator',
+    name: 'Positioning Generator',
+    segment: 6,
+    tagline: 'Dual DTC + SaaS positioning angles for your product.',
+    priceUSD: 19,
+    polarProductId:
+      process.env['POLAR_POSITIONING_GENERATOR_PRODUCT_ID'] ?? 'positioning-generator',
+    model: 'byok-finite',
+    delivery: 'in-browser',
+    byokProviders: ['anthropic', 'openai', 'google'],
+    defaultModel: { anthropic: 'claude-opus-4-8' },
+    estRunSeconds: 35,
+    runsPerPurchase: 3,
+    status: 'beta',
+    inputSchema: async () =>
+      (await import('../../server/store/schemas/positioning-generator')).PositioningInput,
+    outputSchema: async () =>
+      (await import('../../server/store/schemas/positioning-generator')).PositioningOutput,
+    pipeline: async () =>
+      (await import('../../server/store/tools/positioning-generator'))
+        .positioningPipeline as ProductPipeline<unknown, unknown>,
+  },
 ]
 
 export function getProduct(slug: string): ProductDef | undefined {
