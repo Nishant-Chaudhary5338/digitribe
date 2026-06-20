@@ -113,6 +113,16 @@ describe('runProduct finalize order', () => {
     expect(h.decrementQuota).not.toHaveBeenCalled()
   })
 
+  it('rejects a result whose generated files don’t parse (no quota spent)', async () => {
+    h.pipeline.mockResolvedValueOnce({
+      files: [{ path: 'a.json', language: 'json', contents: '{bad' }],
+    })
+    const out = await drain(runProduct(baseReq))
+    expect(out).toContain('"phase":"error"')
+    expect(h.setRun).not.toHaveBeenCalled()
+    expect(h.decrementQuota).not.toHaveBeenCalled()
+  })
+
   it('idempotent replay: a cached success re-emits done without spending quota', async () => {
     h.getRun.mockResolvedValueOnce({
       runId: 'r',

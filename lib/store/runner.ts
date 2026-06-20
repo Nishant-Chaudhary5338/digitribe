@@ -16,6 +16,7 @@ import { runEvent, sseFrame, sseDone, sseError, encodeSse } from './events'
 import { StoreErr, storeError, toErrorResponse } from './errors'
 import { sendArtifactReady } from './email'
 import { storeEnv } from './env'
+import { validateFiles, filesOf } from './validate-files'
 
 const DAY = 60 * 60 * 24
 
@@ -136,6 +137,16 @@ export function runProduct(req: RunInput): Response {
                 )
           )
         }
+
+        // Enforce the "generated files must parse" promise before the buyer gets
+        // them (and before quota is spent). Deterministic, no AI key needed.
+        const files = filesOf(output)
+        if (files.length > 0 && !validateFiles(files).ok)
+          return fail(
+            storeError('RUN_FAILED', 'The generated files didn’t validate — please re-run.', {
+              retryable: true,
+            })
+          )
 
         emit(runEvent('persist', 95, 'Finishing up…'))
         await kv.set(`artifact:${runId}`, output, { ex: 30 * DAY })
