@@ -3,6 +3,7 @@
  * docs/store/segment-6-conversion/shopify-pdp-optimizer.md.
  */
 import { z } from 'zod'
+import { letterGrade } from '../../../lib/store/grade'
 
 export const ShopifyPdpInput = z.object({ url: z.string().url() })
 export type ShopifyPdpInput = z.infer<typeof ShopifyPdpInput>
@@ -23,9 +24,5 @@ export const ShopifyPdpOutput = z.object({
 export type ShopifyPdpOutput = z.infer<typeof ShopifyPdpOutput>
 
 export function pdpGrade(score: number): ShopifyPdpOutput['grade'] {
-  if (score >= 90) return 'A'
-  if (score >= 75) return 'B'
-  if (score >= 60) return 'C'
-  if (score >= 40) return 'D'
-  return 'F'
+  return letterGrade(score)
 }

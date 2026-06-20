@@ -3,6 +3,7 @@
  * docs/store/segment-6-conversion/saas-pricing-teardown.md.
  */
 import { z } from 'zod'
+import { letterGrade } from '../../../lib/store/grade'
 
 export const SaasPricingInput = z.object({ url: z.string().url() })
 export type SaasPricingInput = z.infer<typeof SaasPricingInput>
@@ -31,9 +32,5 @@ export const SaasPricingOutput = z.object({
 export type SaasPricingOutput = z.infer<typeof SaasPricingOutput>
 
 export function pricingGrade(score: number): SaasPricingOutput['grade'] {
-  if (score >= 90) return 'A'
-  if (score >= 75) return 'B'
-  if (score >= 60) return 'C'
-  if (score >= 40) return 'D'
-  return 'F'
+  return letterGrade(score)
 }

@@ -4,6 +4,7 @@
  * A senior CRO teardown of a landing page across 5 fixed dimensions, DTC/SaaS-aware.
  */
 import { z } from 'zod'
+import { letterGrade } from '../../../lib/store/grade'
 
 export const ConversionTeardownInput = z.object({
   url: z.string().url(),
@@ -43,9 +44,5 @@ export const ConversionTeardownOutput = z.object({
 export type ConversionTeardownOutput = z.infer<typeof ConversionTeardownOutput>
 
 export function croGrade(score: number): ConversionTeardownOutput['grade'] {
-  if (score >= 90) return 'A'
-  if (score >= 75) return 'B'
-  if (score >= 60) return 'C'
-  if (score >= 40) return 'D'
-  return 'F'
+  return letterGrade(score)
 }

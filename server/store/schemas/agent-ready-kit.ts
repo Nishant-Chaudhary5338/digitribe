@@ -4,6 +4,7 @@
  * The AI step is forced to fill AgentReadyOutput exactly (same artifact every run).
  */
 import { z } from 'zod'
+import { letterGrade } from '../../../lib/store/grade'
 
 export const AgentReadyInput = z.object({
   url: z.string().url(),
@@ -65,9 +66,5 @@ export const DIMENSION_KEYS = [
 
 /** Deterministic grade from score (PRD §6). */
 export function gradeFor(score: number): AgentReadyOutput['grade'] {
-  if (score >= 90) return 'A'
-  if (score >= 75) return 'B'
-  if (score >= 60) return 'C'
-  if (score >= 40) return 'D'
-  return 'F'
+  return letterGrade(score)
 }
